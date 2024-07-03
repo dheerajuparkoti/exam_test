@@ -21,6 +21,7 @@ header {
     background-color: whitesmoke;
     color: black;
     text-align: center;
+    align-items: normal;
     width: 100%;
     text-align: left;
 }
@@ -63,10 +64,12 @@ nav .left-menu {
 
 nav .menu-link {
     color: white;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav .menu-link-my-account {
     color: white;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav ul li {
@@ -78,6 +81,14 @@ nav ul li a {
     padding: 10px 15px;
     text-decoration: none;
     display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #d32f2f;
+    color: black;
+    font-weight: 700;
 }
 
 nav ul li ul {
@@ -100,13 +111,6 @@ nav ul li ul li a {
     padding: 10px 15px;
 }
 
-nav ul li a:hover,
-nav ul li a.active {
-    background-color: #d32f2f;
-    color: black;
-    font-weight: 500;
-}
-
 /* Main layout */
 main {
     flex: 1;
@@ -120,7 +124,7 @@ main {
 #top-footer {
     background-color: navy;
     color: white;
-    padding: 10px;
+    padding: 0px;
 }
 
 footer#bottom-footer {
@@ -158,10 +162,6 @@ footer#bottom-footer {
 
     nav ul li a.active+ul {
         display: block;
-    }
-
-    .nav-menu.active {
-        display: flex;
     }
 
     .nav-menu.active {
