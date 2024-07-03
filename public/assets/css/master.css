@@ -20,11 +20,14 @@ body {
 header {
     background-color: whitesmoke;
     color: black;
-    padding: 0px;
     text-align: center;
     align-items: normal;
     width: 100%;
     text-align: left;
+}
+
+header h1 {
+    padding: 15px;
 }
 
 nav {
@@ -46,8 +49,25 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
     background-color: #F42D2D;
+}
+
+nav .nav-menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .left-menu {
+    display: flex;
+}
+
+nav .menu-link {
+    color: white;
+}
+
+nav .menu-link-my-account {
+    color: white;
 }
 
 nav ul li {
