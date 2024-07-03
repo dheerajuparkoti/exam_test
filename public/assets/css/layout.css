@@ -83,24 +83,16 @@ nav ul li ul li a {
 
 /* Main layout */
 main {
-    /* display: flex; */
-    flex-wrap: wrap;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
     flex: 1;
-    padding: 10px;
     overflow-y: auto;
-    height: 100%;
+    color: #c01212;
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 
-
-
-aside {
-    flex: 0 1 20%;
-    background-color: lightsalmon;
-    padding: 10px;
-}
 
 
 
@@ -157,8 +149,4 @@ footer#bottom-footer {
         flex-direction: column;
     }
 
-    aside {
-        order: -1;
-        /* Display aside first on small screens */
-    }
 }

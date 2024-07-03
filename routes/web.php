@@ -13,5 +13,5 @@ Route::get('/', function () {
 
 
 Route::get('/', function () {
-    return view('users.about.index');
+    return view('users.home.index');
 });

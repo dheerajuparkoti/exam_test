@@ -15,10 +15,8 @@
     <!-- Main content section -->
     <main>
         <!-- Article section -->
-        @yield('pooja')
+        @yield('content')
 
-        <!-- Aside section -->
-        @include('includes.asidebar')
     </main>
 
     <!-- Footer section -->
