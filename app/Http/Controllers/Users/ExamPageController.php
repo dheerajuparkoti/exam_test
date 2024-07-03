@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pages;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 
@@ -15,6 +15,11 @@ class ExamPageController extends Controller
     public function index()
     {
         return view('users.exam.index');
+    }
+
+    public function form()
+    {
+        return view('users.exam.form');
     }
 
     /**

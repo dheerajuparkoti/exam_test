@@ -4,7 +4,7 @@
     <section>
         <section id="section1" class="homepage-section">
             <h3>Section 1</h3>
-            <p>Welcome To Dashboard</p>
+            <p>Library page</p>
         </section>
     </section>
 @endsection

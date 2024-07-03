@@ -23,6 +23,8 @@
     @include('includes.footer')
 
     <script src="{{ asset('assets/js') }}/navigation_bar.js"></script>
+    {{-- for more java scripts --}}
+    @yield('scripts')
 </body>
 
 </html>
