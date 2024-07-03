@@ -1,7 +1,11 @@
 #section1 {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    background-color: red;
+    align-items: center;
+    align-content: center;
+    background-color: rgb(20, 20, 20);
+    opacity: 0.5;
     height: 100%;
+    width: 100%;
+
 }

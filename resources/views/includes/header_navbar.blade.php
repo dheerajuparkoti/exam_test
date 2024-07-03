@@ -1,5 +1,5 @@
 <header>
-    <h1>E-MCQ Exam</h1>
+    <h1><span style="color:#FF0000">MCQ</span> For Engineers</h1>
     <!-- Navigation bar -->
     <nav>
         <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>

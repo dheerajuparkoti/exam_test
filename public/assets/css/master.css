@@ -19,12 +19,12 @@ body {
 
 header {
     background-color: whitesmoke;
-    color: #4f861b;
-    padding: 10px;
+    color: black;
+    padding: 0px;
     text-align: center;
-    position: fixed;
+    align-items: normal;
     width: 100%;
-    z-index: 1;
+    text-align: left;
 }
 
 nav {
@@ -33,7 +33,7 @@ nav {
 
 .menu-toggle {
     display: none;
-    background-color: #4f861b;
+    background-color: #F42D2D;
     color: white;
     border: none;
     padding: 10px;
@@ -47,7 +47,7 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
-    background-color: #4f861b;
+    background-color: #F42D2D;
 }
 
 nav ul li {
@@ -84,8 +84,6 @@ nav ul li ul li a {
 /* Main layout */
 main {
     flex: 1;
-    overflow-y: auto;
-    color: #c01212;
     -ms-overflow-style: none;
     /* Internet Explorer 10+ */
     scrollbar-width: none;
