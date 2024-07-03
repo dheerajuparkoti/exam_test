@@ -1,0 +1,164 @@
+/* General styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: whitesmoke;
+    color: #4f861b;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+nav {
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+    background-color: #4f861b;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #4f861b;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+nav ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #7878789c;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li:hover ul,
+nav ul li a.active+ul {
+    display: block;
+}
+
+nav ul li ul li a {
+    padding: 10px 15px;
+}
+
+/* Main layout */
+main {
+    /* display: flex; */
+    flex-wrap: wrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+
+
+
+aside {
+    flex: 0 1 20%;
+    background-color: lightsalmon;
+    padding: 10px;
+}
+
+
+
+/* Footer */
+
+#top-footer {
+    background-color: navy;
+    color: white;
+    padding: 10px;
+}
+
+footer#bottom-footer {
+    background-color: navy;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    nav ul li {
+        width: 100%;
+    }
+
+    nav ul li ul {
+        position: static;
+    }
+
+    nav ul li:hover ul {
+        display: none;
+    }
+
+    nav ul li a.active+ul {
+        display: block;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    aside {
+        order: -1;
+        /* Display aside first on small screens */
+    }
+}

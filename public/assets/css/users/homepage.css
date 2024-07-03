@@ -1,0 +1,30 @@
+article {
+    flex: 0 1 80%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+#section1,
+#section2,
+#section3,
+#section4 {
+    padding: 10px;
+}
+
+#section1,
+#section3 {
+    background-color: red;
+    color: white;
+    height: auto;
+    flex: 1;
+}
+
+#section2,
+#section4 {
+    background-color: green;
+    color: greenyellow;
+    height: auto;
+    flex: 1;
+}
