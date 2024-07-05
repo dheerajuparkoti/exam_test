@@ -4,6 +4,10 @@
 
 @section('content')
     <section>
+        @foreach ($exams as $exam)
+            <p>{{ $exam->name }}</p>
+            <p>{{ $exam->id }}</p>
+        @endforeach
         {{-- multi step form  --}}
         <form id="multi-step-form">
             <!-- Step 1: Enter Marks and Time -->

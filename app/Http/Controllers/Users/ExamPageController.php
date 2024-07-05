@@ -4,22 +4,31 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ExamPage;
+use App\Models\Pages\ExamPage;
+use App\Services\ExamService;
 use Illuminate\Http\Request;
 
 class ExamPageController extends Controller
 {
+    private $examService;
+    public function __construct(ExamService $examService)
+    {
+        $this->examService = $examService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
+
         return view('users.exam.index');
     }
 
     public function form()
     {
-        return view('users.exam.form');
+        $exams = $this->examService->all();
+        return view('users.exam.form', compact('exams'));
     }
 
     /**
