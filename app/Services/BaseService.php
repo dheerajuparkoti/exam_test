@@ -1,16 +1,11 @@
 <?php
 
-
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class BaseService
- * @package App\Services\General
- */
 abstract class BaseService
 {
     /**
@@ -227,7 +222,7 @@ abstract class BaseService
     }
 
     /**
-     * @return Model
+     * @return string
      */
-    abstract public function model();
+    abstract public function model(): string;
 }

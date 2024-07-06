@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use App\Models\Faculty;
+use App\Http\Controllers\Controller;
+use App\Models\SubjectQsnCategory;
 use Illuminate\Http\Request;
 
-class FacultyController extends Controller
+
+class SubjectQsnCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +16,7 @@ class FacultyController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +37,7 @@ class FacultyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Faculty $faculty)
+    public function show(SubjectQsnCategory $subjectQsnCategory)
     {
         //
     }
@@ -42,7 +45,7 @@ class FacultyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Faculty $faculty)
+    public function edit(SubjectQsnCategory $subjectQsnCategory)
     {
         //
     }
@@ -50,7 +53,7 @@ class FacultyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Faculty $faculty)
+    public function update(Request $request, SubjectQsnCategory $subjectQsnCategory)
     {
         //
     }
@@ -58,7 +61,7 @@ class FacultyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Faculty $faculty)
+    public function destroy(SubjectQsnCategory $subjectQsnCategory)
     {
         //
     }

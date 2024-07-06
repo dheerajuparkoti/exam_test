@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SubjectQsnCategory extends Model
 {
     use HasFactory;
+ 
+
 }
+
+

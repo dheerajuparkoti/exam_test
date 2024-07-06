@@ -4,32 +4,29 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ExamPage;
-use App\Services\ExamService;
+use App\Models\Faculty;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Level;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
-class ExamPageController extends Controller
+class FacultyController extends Controller
 {
-    private $examService;
-    public function __construct(ExamService $examService)
-    {
-        $this->examService = $examService;
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        return view('users.exam.index');
+        //
     }
 
 
-    public function form()
+    public function getFacultiesByCategory(Request $request, $category)
     {
+        // Assuming you have a Category model and want to fetch faculties
+        // associated with the given $category ID
+        $faculties = Faculty::where('category_id', $category)->get();
 
+        // Return JSON response or however you wish to handle the response
+        return response()->json($faculties);
     }
 
     /**
@@ -51,7 +48,7 @@ class ExamPageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ExamPage $examPage)
+    public function show(Faculty $faculty)
     {
         //
     }
@@ -59,7 +56,7 @@ class ExamPageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ExamPage $examPage)
+    public function edit(Faculty $faculty)
     {
         //
     }
@@ -67,7 +64,7 @@ class ExamPageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ExamPage $examPage)
+    public function update(Request $request, Faculty $faculty)
     {
         //
     }
@@ -75,7 +72,7 @@ class ExamPageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ExamPage $examPage)
+    public function destroy(Faculty $faculty)
     {
         //
     }

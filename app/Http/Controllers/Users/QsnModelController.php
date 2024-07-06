@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use App\Models\SubjectQsnCategory;
+use App\Http\Controllers\Controller;
+use App\Models\QsnModel;
 use Illuminate\Http\Request;
 
-class SubjectQsnCategoryController extends Controller
+class QsnModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class SubjectQsnCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SubjectQsnCategory $subjectQsnCategory)
+    public function show(QsnModel $qsnModel)
     {
         //
     }
@@ -42,7 +43,7 @@ class SubjectQsnCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SubjectQsnCategory $subjectQsnCategory)
+    public function edit(QsnModel $qsnModel)
     {
         //
     }
@@ -50,7 +51,7 @@ class SubjectQsnCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubjectQsnCategory $subjectQsnCategory)
+    public function update(Request $request, QsnModel $qsnModel)
     {
         //
     }
@@ -58,7 +59,7 @@ class SubjectQsnCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubjectQsnCategory $subjectQsnCategory)
+    public function destroy(QsnModel $qsnModel)
     {
         //
     }

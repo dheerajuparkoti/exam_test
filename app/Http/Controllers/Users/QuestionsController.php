@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use App\Models\Questions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class QuestionsController extends Controller
 {
@@ -14,6 +16,7 @@ class QuestionsController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for creating a new resource.

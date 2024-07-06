@@ -1,11 +1,12 @@
 <?php
+namespace App\Http\Controllers\Users;
 
-namespace App\Http\Controllers;
-
-use App\Models\QsnCategory;
+use App\Http\Controllers\Controller;
+use App\Models\Subjects;
 use Illuminate\Http\Request;
+use App\Models\Programs;
 
-class QsnCategoryController extends Controller
+class ProgramsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +14,12 @@ class QsnCategoryController extends Controller
     public function index()
     {
         //
+    }
+
+    public function getProgramsByFaculty($facultyId)
+    {
+        $programs = Programs::where('faculty_id', $facultyId)->get();
+        return response()->json($programs);
     }
 
     /**
@@ -34,32 +41,19 @@ class QsnCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(QsnCategory $qsnCategory)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(QsnCategory $qsnCategory)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, QsnCategory $qsnCategory)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(QsnCategory $qsnCategory)
-    {
-        //
-    }
+
 }

@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Level;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -10,9 +13,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private $categoryService;
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
     public function index()
     {
-        //
+        $categories = $this->categoryService->all();
+        // $categories = Category::all();
+        $levels = []; // Initially empty, to be populated dynamically based on category selection.
+        return view('users.exam.index', compact('categories', 'levels'));
+
     }
 
     /**
@@ -34,9 +47,11 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show()
     {
-        //
+        $categories = $this->categoryService->all();
+        dd($categories);
+        return response()->json($categories);
     }
 
     /**

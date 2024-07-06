@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use App\Models\Subjects;
 use Illuminate\Http\Request;
 
@@ -61,5 +62,11 @@ class SubjectsController extends Controller
     public function destroy(Subjects $subjects)
     {
         //
+    }
+
+    public function getSubjectsByProgram($programId)
+    {
+        $subjects = Subjects::where('program_id', $programId)->get();
+        return response()->json($subjects);
     }
 }
