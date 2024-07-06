@@ -18,40 +18,39 @@ class QsnCategoryController extends Controller
         //
     }
 
-    public function getQsnCategoyBySubject($subjectId)
+    public function getQsnTypeBySubject($subjectId)
     {
+        $distinctSubjectIds = Questions::where('subject_id', $subjectId)
+            ->distinct('subject_id')
+            ->pluck('subject_id');
 
-        // Log the incoming request
-        Log::info("Fetching QsnCategories for subject_id: $subjectId");
+        // Fetch distinct qsn_category_ids based on the fetched subject_ids
+        $distinctQsnCategoryIds = Questions::whereIn('subject_id', $distinctSubjectIds)
+            ->distinct('qsn_category_id')
+            ->pluck('qsn_category_id');
 
-        // Fetch distinct QsnCategories based on subject_id
-        $questions = Questions::where('subject_id', $subjectId)
-            ->with('qsnCategory') // Load the qsnCategory relationship
-            ->get();
+        // Fetch all QsnCategory data for the distinct qsn_category_ids
+        $qsnCategoriesData = QsnCategory::whereIn('id', $distinctQsnCategoryIds)->get();
 
-        // Extract unique qsnCategories by their IDs
-        $qsnCategoriesData = $questions->unique('qsnCategory.id')->pluck('qsnCategory');
+        $responseData = [];
 
-        // Map over the qsnCategories to format the data as needed
-        $formattedCategories = $qsnCategoriesData->map(function ($qsnCategory) {
-            // Determine type based on isObjective flag
+        // Iterate over the collection to build the response data
+        foreach ($qsnCategoriesData as $qsnCategory) {
             $type = $qsnCategory->isObjective ? 'Objective' : 'Subjective';
-
-            // Return formatted data
-            return [
+            $responseData[] = [
                 'id' => $qsnCategory->id,
                 'name' => $qsnCategory->name,
-                'weightage' => $qsnCategory->weightage,
                 'type' => $type,
+                'weightage' => $qsnCategory->weightage,
                 // Add more fields as needed
             ];
-        });
+        }
 
-        // Log the extracted QsnCategory data
-        Log::info("Extracted QsnCategory data: " . $formattedCategories);
+        // Log the fetched data (optional)
+        Log::info("Fetched QsnCategory data for distinct qsn_category_ids: " . $qsnCategoriesData);
 
         // Return the response
-        return response()->json($formattedCategories);
+        return response()->json($responseData);
     }
 
 

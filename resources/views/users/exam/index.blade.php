@@ -60,24 +60,16 @@
                     </select>
                 </div>
                 <div>
-
-                    <label for="questionCategory">Question Category:</label>
-                    <select id="questionCategory" name="questionCategory" required>
-                        <option value="">Select Question Category</option>
+                    <label for="questionType">Question Type:</label>
+                    <select id="questionType" name="questionType" required>
+                        <option value="">Select Question Type</option>
                         {{-- <option value="General">General</option>
                         <option value="Specific">Specific</option> --}}
                     </select>
-                </div>
-                <div>
-                    <label for="questionType">Question Type:</label>
-                    <select id="questionType" name="questionType" required>
-                        {{-- <option value="">Select Question Type</option>
-                        <option value="Long">Long</option>
-                        <option value="Very Long">Very Long</option>
-                        <option value="Short">Short</option>
-                        <option value="Very Short">Very Short</option> --}}
                     </select>
                 </div>
+
+
                 <div>
                     <label for="quantity">Question Quantity:</label>
                     <input type="number" id="quantity" name="quantity" required />
@@ -96,7 +88,6 @@
                     <thead>
                         <tr>
                             <th>Subject</th>
-                            <th>Question Category</th>
                             <th>Question Type</th>
                             <th>Quantity</th>
                             <th>Action</th>
@@ -153,8 +144,8 @@
         function calculateTotalWeightage() {
             var totalWeightage = 0;
             $("#subjectTableBody tr").each(function() {
-                var currentQuantity = parseInt($(this).find("td:eq(3)").text());
-                var currentWeightage = parseInt($(this).find("td:eq(2)").text().split(' - ')[1].split(' ')[0]);
+                var currentQuantity = parseInt($(this).find("td:eq(2)").text());
+                var currentWeightage = parseInt($(this).find("td:eq(1)").text().split(' - ')[2].split(' ')[0]);
                 totalWeightage += currentQuantity * currentWeightage;
             });
             $("#calcFullMarks").text("Calculated Full Marks: " + totalWeightage);
@@ -166,14 +157,13 @@
             var subject = $("#subject").val();
             var subjectName = $("#subject option:selected").text(); // retrieve subject name
 
-            var questionCategory = $("#questionCategory").val();
-            var questionCategoryName = $("#questionCategory option:selected").text();
-
             var questionType = $("#questionType").val();
             var questionTypeName = $("#questionType option:selected").text();
 
+
+
             var quantity = $("#quantity").val();
-            var weightage = parseInt($("#questionType option:selected").text().split(' - ')[1].split(' ')[
+            var weightage = parseInt($("#questionType option:selected").text().split(' - ')[2].split(' ')[
                 0]); // retrieve weightage
 
             // Check if total weightage exceeds 100
@@ -185,12 +175,11 @@
                 return; // Exit the function if total weightage exceeds 100
             }
 
-            if (subject && quantity && questionCategory && questionType) {
+            if (subject && quantity && questionType) {
                 var row = `
                 <tr>
                     <td>${subjectName}</td>
-                    <td>${questionCategoryName}</td>
-                    <td>${questionTypeName}</td>
+                    <td>${questionTypeName}</td>              
                     <td>${quantity}</td>
                     <td><button type="button" class="remove-btn" onclick="removeSubject(this)">Remove</button></td>
                 </tr>
@@ -199,7 +188,6 @@
 
                 // Clear input fields after adding subject
                 $("#subject").val("");
-                $("#questionCategory").val("");
                 $("#questionType").val("");
                 $("#quantity").val("");
 
@@ -226,16 +214,13 @@
             var subjectsHTML = "";
             $("#subjectTableBody tr").each(function(index) {
                 var subject = $(this).find("td:eq(0)").text();
-                var questionCategory = $(this).find("td:eq(1)").text();
-                var questionType = $(this).find("td:eq(2)").text().split(' - ')[
-                    0]; // Remove the marks from the displayed confirmation
-                var quantity = $(this).find("td:eq(3)").text();
+                var questionType = $(this).find("td:eq(1)").text();
+                var quantity = $(this).find("td:eq(2)").text();
 
                 subjectsHTML += `
                 <tr>
                     <td>${subject}</td>
-                    <td>${questionCategory}</td>
-                    <td>${questionType}</td>
+                    <td>${questionType}</td>         
                     <td>${quantity}</td>
                 </tr>
             `;
@@ -251,8 +236,7 @@
                 <thead>
                     <tr>
                         <th>Subject</th>
-                        <th>Question Category</th>
-                        <th>Question Type</th>
+                        <th>Question Type</th>             
                         <th>Quantity</th>
                     </tr>
                 </thead>
@@ -378,30 +362,24 @@
                 var subjectId = $(this).val();
                 if (subjectId) {
                     $.ajax({
-                        url: '{{ route('subjects.QsnCategory', ':subject') }}'.replace(
+                        url: '{{ route('subjects.QsnType', ':subject') }}'.replace(
                             ':subject', subjectId),
                         type: 'GET',
                         success: function(response) {
-                            $("#questionCategory").empty().append(
-                                '<option value="">Select Category</option>');
-                            $.each(response, function(key, value) {
-                                $("#questionCategory").append('<option value="' + value
-                                    .id + '">' + value.type + '</option>');
-                            });
-
                             $("#questionType").empty().append(
                                 '<option value="">Select Type</option>');
                             $.each(response, function(key, value) {
                                 $("#questionType").append('<option value="' + value.id +
-                                    '">' + value.name + ' - ' + value.weightage +
+                                    '">' + value.type + ' - ' + value.name + ' - ' +
+                                    value.weightage +
                                     ' marks' + '</option>');
                             });
+
                         }
                     });
                 } else {
-                    $("#questionCategory").empty().append(
-                        '<option value="">Select Question Category Type</option>');
                     $("#questionType").empty().append('<option value="">Select Question Type</option>');
+
                 }
             });
         });

@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class QsnCategory extends Model
 {
     use HasFactory;
+    protected $table = 'qsn_categories';
     public function subQsnCategories()
     {
         return $this->hasMany(SubjectQsnCategory::class, 'qsn_category_id');
     }
+
+
 
     public function questions()
     {

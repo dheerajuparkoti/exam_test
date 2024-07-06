@@ -32,7 +32,8 @@ Route::group(['prefix' => 'exam', 'namespace' => 'Users'], function () {
     Route::get('/categories/{category}/faculties', [FacultyController::class, 'getFacultiesByCategory'])->name('categories.faculties');
     Route::get('/faculties/{faculty}/programs', [ProgramsController::class, 'getProgramsByFaculty'])->name('faculties.programs');
     Route::get('/programs/{program}/subjects', [SubjectsController::class, 'getSubjectsByProgram'])->name('programs.subjects');
-    Route::get('/subjects/{subject}/qsn_categories', [QsnCategoryController::class, 'getQsnCategoyBySubject'])->name('subjects.QsnCategory');
+    Route::get('/qsnCategories/{subject}/qsn_types', [QsnCategoryController::class, 'getQsnTypeBySubject'])->name('subjects.QsnType');
+
 });
 
 

@@ -16,14 +16,14 @@ class QuestionSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, 15) as $index) {
+        foreach (range(1, 100) as $index) {
             DB::table('questions')->insert([
                 'title' => $faker->name,
                 'description' => $faker->firstNameFemale(),
                 'option' => $faker->colorName(),
                 'qsn_model_id' => '1',
-                'qsn_category_id' => $faker->numberBetween(4, 5),
-                'subject_id' => $faker->numberBetween(2, 3),
+                'qsn_category_id' => $faker->numberBetween(1, 3),
+                'subject_id' => $faker->numberBetween(1, 3),
             ]);
         }
     }
