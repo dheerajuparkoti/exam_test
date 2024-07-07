@@ -20,10 +20,14 @@ class QuestionSeeder extends Seeder
             DB::table('questions')->insert([
                 'title' => $faker->name,
                 'description' => $faker->firstNameFemale(),
-                'option' => $faker->colorName(),
-                'qsn_model_id' => '1',
+                'option_a' => $faker->colorName(),
+                'option_b' => $faker->lastName(),
+                'option_c' => $faker->firstNameMale(),
+                'option_d' => $faker->firstName(),
+                'correct_option' => 'a',
                 'qsn_category_id' => $faker->numberBetween(1, 3),
                 'subject_id' => $faker->numberBetween(1, 3),
+                'qsn_model_id' => null
             ]);
         }
     }

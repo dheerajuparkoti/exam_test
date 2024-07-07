@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\LevelService;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
-class CategoryController extends Controller
+class LevelController extends Controller
 {
-    private $view = 'admin.category.';
+    private $view = 'admin.level.';
     /**
-     * @var CategoryService
+     * @var LevelService
      */
-    private $categoryService;
+    private $levelService;
+    private $categoryService; // Add this line
     /**
      * @var DataTables
      */
@@ -24,17 +26,27 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function __construct(
-        CategoryService $categoryService,
+        LevelService $levelService,
+        CategoryService $categoryService, // Add this line
         DataTables $dataTables
     ) {
-        $this->categoryService = $categoryService;
+        $this->levelService = $levelService;
         $this->dataTables = $dataTables;
+        $this->categoryService = $categoryService; // Add this line
     }
 
     public function index(Request $request)
     {
+        /*
         if ($request->wantsJson()) {
             return $this->datatable($request);
+        }
+        return view($this->view . 'index');
+        */
+        if ($request->wantsJson()) {
+            $response = $this->datatable($request);
+            Log::info('Datatable response', ['response' => $response]);
+            return $response;
         }
         return view($this->view . 'index');
     }
@@ -44,7 +56,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view($this->view . 'create');
+        $categories = $this->categoryService->all()->pluck('name', 'id'); // Adjust based on your Category model
+        return view($this->view . 'create', compact('categories'));
+        // return view($this->view . 'create');
     }
 
     /**
@@ -52,9 +66,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->categoryService->create($request->all());
-
-        return redirect()->route('admin.category.index');
+        $this->levelService->create($request->all());
+        return redirect()->route('admin.level.index');
     }
 
     /**
@@ -70,9 +83,13 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = $this->categoryService->find($id);
+        // $level = $this->levelService->find($id);
+        // return view($this->view . 'edit', compact('level'));
+        $level = $this->levelService->find($id);
+        $categories = $this->categoryService->all()->pluck('name', 'id'); // Adjust based on your Category model
 
-        return view($this->view . 'edit', compact('category'));
+        return view($this->view . 'edit', compact('level', 'categories'));
+
     }
 
     /**
@@ -80,9 +97,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->categoryService->update($id, $request->all());
+        $this->levelService->update($id, $request->all());
 
-        return redirect()->route('admin.category.index');
+        return redirect()->route('admin.level.index');
     }
 
     /**
@@ -90,7 +107,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->categoryService->destroy($id);
+        $this->levelService->destroy($id);
 
         return redirect()->back();
     }
@@ -102,21 +119,24 @@ class CategoryController extends Controller
      */
     private function datatable(Request $request)
     {
-        $categories = $this->categoryService->all();
-        Log::info('Retrieving all levels', ['categories' => $categories]);
-        return $this->dataTables->of($categories)
-            ->addColumn('action', function ($category) {
+        $levels = $this->levelService->allWithCategory();
+        Log::info('Retrieving all levels', ['levels' => $levels]);
+
+        return $this->dataTables->of($levels)
+            ->addColumn('action', function ($level) {
                 $params = [
-                    'route' => 'admin.category',
-                    'id' => $category->id,
+                    'route' => 'admin.level',
+                    'id' => $level->id,
                     'edit' => true,
                     'delete' => true,
                 ];
 
                 return view('admin.layouts.datatable.action', compact('params'));
+
             })
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
+
     }
 }

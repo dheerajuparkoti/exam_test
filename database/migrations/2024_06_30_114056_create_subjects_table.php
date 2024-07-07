@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->timestamps();
-            $table->foreignId('qsn_model_id')->constrained('qsn_models')->onDelete('cascade')->default('null');
+            $table->foreignId('qsn_model_id')->nullable()->constrained('qsn_models')->onDelete('cascade');
             $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
         });
     }
