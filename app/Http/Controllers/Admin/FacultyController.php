@@ -4,41 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
+use App\Services\FacultyService;
 use App\Services\LevelService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class LevelController extends Controller
+class FacultyController extends Controller
 {
-    private $view = 'admin.level.';
+    private $view = 'admin.faculty.';
     /**
      * @var DataTables
      */
     private $dataTables;
     /**
-     * @var LevelService
+     * @var FacultyService
      */
-    private $levelService;
+    private $facultyService;
     /**
      * @var CategoryService
      */
     private $categoryService;
+    /**
+     * @var LevelService
+     */
+    private $levelService;
 
     /**
-     * LevelController constructor.
+     * FacultyController constructor.
      * @param DataTables $dataTables
-     * @param LevelService $levelService
-     * @param CategoryService $categoryService
+     * @param FacultyService $facultyService
      */
     public function __construct(
         DataTables $dataTables,
-        LevelService $levelService,
-        CategoryService $categoryService
+        FacultyService $facultyService,
+        CategoryService $categoryService,
+        LevelService $levelService
     )
     {
         $this->dataTables = $dataTables;
-        $this->levelService = $levelService;
+        $this->facultyService = $facultyService;
         $this->categoryService = $categoryService;
+        $this->levelService = $levelService;
     }
 
     /**
@@ -67,9 +73,9 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->levelService->create($request->all());
+        $this->facultyService->create($request->all());
 
-        return redirect()->route('admin.level.index');
+        return redirect()->route('admin.faculty.index');
     }
 
     /**
@@ -85,10 +91,10 @@ class LevelController extends Controller
      */
     public function edit(string $id)
     {
-        $level = $this->levelService->find($id);
+        $faculty = $this->facultyService->find($id);
         $categories = $this->categoryService->all()->pluck('name', 'id');
 
-        return view($this->view.'edit', compact('level', 'categories'));
+        return view($this->view.'edit', compact('faculty', 'categories'));
     }
 
     /**
@@ -96,9 +102,9 @@ class LevelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->levelService->update($id, $request->all());
+        $this->facultyService->update($id, $request->all());
 
-        return redirect()->route('admin.level.index');
+        return redirect()->route('admin.faculty.index');
     }
 
     /**
@@ -106,15 +112,14 @@ class LevelController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->levelService->destroy($id);
+        $this->facultyService->destroy($id);
 
         return redirect()->back();
     }
+    public function facultiesByLevel($levelId) {
+        $faculties = $this->facultyService->query()->where(['level_id' => $levelId])->whereNull('parent_id')->get();
 
-    public function levelsByCategory($categoryId) {
-        $levels = $this->levelService->getWhere(['category_id' => $categoryId]);
-
-        return $levels;
+        return $faculties;
     }
     /**
      * @param Request $request
@@ -123,13 +128,13 @@ class LevelController extends Controller
      */
     private function datatable(Request $request)
     {
-        $levels = $this->levelService->query()->with(['category'])->get();
+        $faculties = $this->facultyService->query()->whereNull(['parent_id'])->with(['category', 'level'])->get();
 
-        return $this->dataTables->of($levels)
-            ->addColumn('action', function ($level) {
+        return $this->dataTables->of($faculties)
+            ->addColumn('action', function ($faculty) {
                 $params = [
-                    'route' => 'admin.level',
-                    'id' => $level->id,
+                    'route' => 'admin.faculty',
+                    'id' => $faculty->id,
                     'edit' => true,
                     'delete' => true,
                 ];

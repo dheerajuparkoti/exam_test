@@ -2,6 +2,7 @@
 @section('title')
     Level Create
 @endsection
+
 @section('content')
     <div class="kt-portlet">
         <div class="kt-portlet__head">
@@ -12,7 +13,7 @@
             </div>
         </div>
         {{ html()->modelForm(null, 'post')->route('admin.level.store')->class('kt-form kt-form--label-right')->open() }}
-        @include('admin.level.form', ['formAction' => 'Save'])
+            @include('admin.level.form', ['formAction' => 'Save'])
         {{ html()->closeModelForm() }}
     </div>
 @endsection
