@@ -34,6 +34,7 @@ Route::group(['prefix' => 'exam', 'namespace' => 'Users'], function () {
     Route::get('/programs/{program}/subjects', [SubjectsController::class, 'getSubjectsByProgram'])->name('programs.subjects');
     Route::get('/qsnCategories/{subject}/qsn_types', [QsnCategoryController::class, 'getQsnTypeBySubject'])->name('subjects.QsnType');
 
+    Route::get('/exam-test', [ExamPageController::class, 'index'])->name('examtest.index');
 });
 
 
@@ -55,5 +56,5 @@ Route::group(['prefix' => 'about', 'namespace' => 'users'], function () {
 
 //END FOR USERS ==============================================================
 Route::get('/', function () {
-    return view('users.exam.index');
+    // return view('users.exam.index');
 });
