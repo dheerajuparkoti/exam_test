@@ -9,6 +9,7 @@ class QsnCategory extends Model
 {
     use HasFactory;
     protected $table = 'qsn_categories';
+    protected $guarded = ['id'];
     public function subQsnCategories()
     {
         return $this->hasMany(SubjectQsnCategory::class, 'qsn_category_id');
