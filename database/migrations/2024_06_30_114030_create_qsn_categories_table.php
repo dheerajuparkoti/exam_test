@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('weightage');
-            $table->boolean('isObjective');
+            $table->boolean('is_objective')->default(0);
             $table->timestamps();
         });
     }
