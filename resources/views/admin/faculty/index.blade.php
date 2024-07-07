@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    Level Listing
+    Faculty Listing
 @endsection
 
 @section('content')
@@ -11,24 +11,25 @@
                 {{--                    <i class="flaticon-calendar"></i>--}}
                 {{--                </span>--}}
                 <h3 class="kt-portlet__head-title kt-font-primary">
-                    Level Listing
+                    Faculty Listing
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
                 <div class="kt-portlet__head-actions">
-                    <a href="{{ route('admin.level.create') }}" class="btn btn-success btn-pill btn-sm">
+                    <a href="{{ route('admin.faculty.create') }}" class="btn btn-success btn-pill btn-sm">
                         Create
                     </a>
                 </div>
             </div>
         </div>
         <div class="kt-portlet__body">
-            <table class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer" width="100%" id="level-table">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer" width="100%" id="faculty-table">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>Name</th>
                     <th>Category</th>
+                    <th>Level</th>
                     <th style="text-align: center">Actions</th>
                 </tr>
                 </thead>
@@ -39,8 +40,8 @@
 
 @push('script')
     <script type="application/javascript">
-        var url = '{{ route('admin.level.index') }}';
-        var levelTable = $('#level-table').DataTable({
+        var url = '{{ route('admin.faculty.index') }}';
+        var levelTable = $('#faculty-table').DataTable({
             processing: true,
             serverSide: true,
             autoWidth: false,
@@ -54,6 +55,7 @@
                 {data: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
                 {data: 'name', name: 'name'},
                 {data: 'category.name', name: 'category.name'},
+                {data: 'level.name', name: 'level.name'},
                 {data: 'action', 'name': 'action', searchable: false, orderable: false, className: 'dt-body-center'}
             ],
         });

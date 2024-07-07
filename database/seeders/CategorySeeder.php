@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Services\CategoryService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -10,18 +11,35 @@ use Illuminate\Support\Facades\DB;
 class CategorySeeder extends Seeder
 {
     /**
+     * @var CategoryService
+     */
+    private $categoryService;
+
+    /**
+     * CategorySeeder constructor.
+     * @param CategoryService $categoryService
+     */
+    public function __construct(
+        CategoryService $categoryService
+    )
+    {
+        $this->categoryService = $categoryService;
+    }
+
+    /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //for inserting multiple data in a single column
         $categories = [
             ['name' => 'Licensing Exam'],
             ['name' => 'Public Service Commision'],
-            // Add more categories as needed
+            ['name' => 'Entrance Examination'],
         ];
 
-        // Insert data into the 'categories' table
-        DB::table('categories')->insert($categories);
+        $this->categoryService->truncate();
+        foreach ($categories as $category) {
+            $this->categoryService->create($category);
+        }
     }
 }

@@ -1,19 +1,18 @@
 <?php
 
+
 namespace App\Services;
 
-use App\Models\Level;
 
-class LevelService extends BaseService
+use App\Models\Faculty;
+
+class FacultyService extends BaseService
 {
     /**
      * @return string
      */
     public function model(): string
     {
-        return Level::class;
+        return Faculty::class;
     }
-
-
-
 }
