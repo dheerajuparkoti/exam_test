@@ -56,5 +56,5 @@ Route::group(['prefix' => 'about', 'namespace' => 'users'], function () {
 
 //END FOR USERS ==============================================================
 Route::get('/', function () {
-    // return view('users.exam.index');
+    return view('users.loginpage');
 });
