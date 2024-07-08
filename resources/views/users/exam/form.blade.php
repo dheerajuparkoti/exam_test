@@ -58,18 +58,19 @@
         </div>
         <div class="bottom-header">
             <div class = "timer-display">
-                <p>Timer</p>
+                <h5>Timer</h5>
+                <h1 id="timer">30:00</h1>
             </div>
             <div class = "header-display">
                 <div class="left-quiz-info">
-                    <p>Level: Bachelore</p>
-                    <p>Faculty: Science & Technology</p>
-                    <p>Program: Computer Engineering</p>
+                    <h6>Level: <span>Bachelore</span></h6>
+                    <h6>Faculty: <span>Science & Technology</span></h6>
+                    <h6>Program:<span> Computer Engineering</span></h6>
                 </div>
                 <div class="right-quiz-info">
-                    <p>Full Marks: 100</p>
-                    <p>Pass Marks: 40</p>
-                    <p>Time: 30 minutes</p>
+                    <h6>Full Marks: <span>100</span></h6>
+                    <h6>Pass Marks: <span>40</span></h6>
+                    <h6>Time:<span> 30 min.</span></h6>
                 </div>
             </div>
         </div>
@@ -77,7 +78,32 @@
     <main>
         <div class=left-aside>
             <div class="la-content">
-                <h3>Sidebar</h3>
+                <div class="model-information">
+                    <h5>Model Information</h5>
+                    <h6>Published on <br> <span>2024-04-21,09:15 AM</span></h6>
+                    <h6>Total Participants <br> <span>96</span></h6>
+                    <h6>Pass Percentage <br> <span>65 %</span></h6>
+                </div>
+                <div class="active-participants">
+                    <hr>
+                    <h5>
+                        Active Participants
+                    </h5>
+                    <h1 id="participant_no">17</h1>
+                    <hr>
+                </div>
+                <div class="live-score">
+                    <h5>
+                        Live Score
+                    </h5>
+                    <div class="load-scorer">
+                        <h6>Name: <span>Reverse Minded</span></h6>
+                        <h6>Score: <span>87</span></h6>
+                        <h6>Time: <span>26:42 min</span></h6>
+                        <hr>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -105,6 +131,35 @@
             <p>&copy; 2024 MCQ for Engineers. All rights reserved.</p>
         </div>
     </footer>
+
+    {{-- javascripts --}}
+
+    {{-- for count down timer --}}
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration,
+                minutes, seconds;
+            setInterval(function() {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function() {
+            var thirtyMinutes = 60 * 30,
+                display = document.querySelector('#timer');
+            startTimer(thirtyMinutes, display);
+        };
+    </script>
 
 </body>
 

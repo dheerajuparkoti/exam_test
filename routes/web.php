@@ -1,6 +1,7 @@
 <?php
 // Controllers for Users
 use App\Http\Controllers\Users\DashboardPageController;
+use App\Http\Controllers\Users\AuthController;
 // for exam page data loading
 use App\Http\Controllers\Users\CategoryController;
 use App\Http\Controllers\Users\LevelController;
@@ -55,6 +56,9 @@ Route::group(['prefix' => 'about', 'namespace' => 'users'], function () {
 });
 
 //END FOR USERS ==============================================================
+
 Route::get('/', function () {
     return view('users.loginpage');
-});
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');

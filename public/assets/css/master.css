@@ -120,17 +120,18 @@ main {
     /* Firefox */
     align-items: center;
     align-content: center;
+    background: linear-gradient(45deg, #000000, #717171);
 }
 
 /* Footer */
 #top-footer {
-    background-color: navy;
+    background-color: #d32f2f;
     color: white;
     padding: 0px;
 }
 
 footer#bottom-footer {
-    background-color: navy;
+    background-color: #d32f2f;
     color: white;
     text-align: center;
     padding: 10px;

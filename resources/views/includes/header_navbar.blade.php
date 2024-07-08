@@ -11,7 +11,6 @@
                 <li class="menu-item"><a href="{{ route('exam.index') }}" class="menu-link">EXAM</a></li>
                 <li class="menu-item"><a href="{{ route('library.index') }}" class="menu-link">LIBRARY</a></li>
                 <li class="menu-item"><a href="{{ route('hall.index') }}" class="menu-link">HALL</a></li>
-                <li class="menu-item"><a href="{{ route('about.index') }}" class="menu-link">ABOUT US</a></li>
             </div>
             <div class="right-menu">
                 <li class="menu-item"><a href="#MYACCOUNT" class="menu-link-my-account">MY ACCOUNT</a></li>
