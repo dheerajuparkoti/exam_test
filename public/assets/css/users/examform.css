@@ -12,7 +12,7 @@ body {
 body {
     display: flex;
     flex-direction: column;
-    font-family: Arial, Helvetica, sans-serif
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 
@@ -91,16 +91,16 @@ main {
     overflow: hidden;
 }
 
-
+.content,
 .left-aside,
-.right-aside,
-.content {
+.right-aside {
     display: flex;
     color: white;
     /* align-items: center; */
     justify-content: center;
 }
 
+/*LEFT SIDE CONTENT================================*/
 .left-aside {
     background-color: #363B42;
     width: 15%;
@@ -134,13 +134,13 @@ main {
     position: relative;
 }
 
-.active-participants h5 {
+.active-participants h6 {
     padding: 5px;
     padding-left: 15px;
 
 }
 
-.active-participants h1 {
+.active-participants h3 {
     text-align: center;
 }
 
@@ -167,23 +167,156 @@ main {
     background-color: #6B95B4;
 }
 
+.load-scorer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    height: 15vh;
+}
+
+.load-scorer::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
 
 
 /* .la-content {
     transform: rotate(-90deg);
 } */
 
+/*LEFT SIDE CONTENT END*/
 
+
+/*RIGHT SIDE CONTENT================================*/
 .right-aside {
     background-color: #363B42;
-    width: 15%;
+    width: 18%;
     flex-shrink: 0;
+}
+
+.right-aside .ra-content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+}
+
+/* answer status */
+.ra-content .answer-status {
+    position: relative;
+
+}
+
+.ra-content .mark-buttons {
+    position: relative;
+    overflow-y: auto;
+    height: 50vh;
+}
+
+
+.answer-status h5 {
+    background-color: #6B95B4;
+    padding: 5px;
+    padding-left: 15px;
+
+}
+
+.mark-buttons .button {
+    /* Green */
+    width: 25px;
+    height: 25px;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px 2px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.button1 {
+    background-color: #DADADA;
+}
+
+.mark-buttons::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just to hide the scrollbar */
+}
+
+
+.answer-status h6 {
+    padding-left: 20px;
+}
+
+/* active-participants */
+.ra-content .question-indexes {
+    position: relative;
+}
+
+.question-indexes h6 {
+    padding-left: 15px;
+    font-size: small;
+}
+
+.question-indexes h1 {
+    text-align: center;
+}
+
+.question-indexes hr {
+    background-color: #6B95B4;
+}
+
+/* for total question */
+.question-indexes .round-dot1 {
+    height: 10px;
+    width: 10px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* for answered question */
+.question-indexes .round-dot2 {
+    height: 10px;
+    width: 10px;
+    background-color: #A1FF9F;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* for skipped question */
+.question-indexes .round-dot3 {
+    height: 10px;
+    width: 10px;
+    background-color: #DE8C8C;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* for current question */
+.question-indexes .round-dot4 {
+    height: 10px;
+    width: 10px;
+    background-color: #FEE14B;
+    border-radius: 50%;
+    display: inline-block;
 }
 
 
 /* .ra-content {
     transform: rotate(-90deg);
 } */
+
+
+/*RIGHT SIDE CONTENT ENDS=====================*/
+
+
 
 .content {
     display: flex;
@@ -199,24 +332,414 @@ main {
     width: 100%;
     border-radius: 20px;
     flex: 1;
+    flex-direction: column;
+    align-items: center;
+
 }
 
+.main-content .question-section {
+    padding: 10px 5px 5px 10px;
+    margin: 25px 25px 0px 25px;
+    position: relative;
+    height: auto;
+    overflow-y: auto;
+    color: black;
+
+}
+
+.question-section::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just to hide the scrollbar */
+}
+
+.main-content .options-section {
+    padding: 10px 5px 5px 10px;
+    margin: 0px 25px 25px 25px;
+    position: relative;
+    height: auto;
+    overflow-y: hidden;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.options-section .options-button {
+    position: relative;
+    margin: 5px 0px 5px 0px;
+    padding-left: 5px;
+    text-align: left;
+    border: none;
+    background-color: #DADADA;
+    outline: none;
+
+}
+
+.options-section .option-1 {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.options-section .option-2 {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.options-section .option-3 {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.options-section .option-4 {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.options-button:hover {
+    color: #45a049;
+    /* border: 1px solid green; */
+}
+
+.option-1:hover {
+    background-color: #45a049;
+    color: black;
+}
+
+.option-2:hover {
+    background-color: #45a049;
+    color: black;
+}
+
+.option-3:hover {
+    background-color: #45a049;
+    color: black;
+}
+
+.option-4:hover {
+    background-color: #45a049;
+    color: black;
+}
+
+/* NAVIGATION BUTTON  */
+.main-content .navigation-button-section {
+    height: fit-content;
+    overflow-y: none;
+    margin: 10px 25px 10px 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-content hr {
+    margin: 0px 25px 5px 25px;
+    background-color: #6B95B4;
+
+}
+
+
+
+.navigation-button-section .prev-btn {
+    width: 100px;
+    background-color: #BCA632;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    outline: none;
+    transition-duration: 0.4s;
+}
+
+
+
+.prev-btn:hover {
+    background-color: #928128;
+
+}
+
+.navigation-button-section .skip-btn {
+    width: 100px;
+    background-color: #DE8C8C;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    color: black;
+    transition-duration: 0.4s;
+}
+
+.skip-btn:hover {
+    background-color: #c37575;
+
+}
+
+
+.navigation-button-section .next-btn {
+    width: 100px;
+    background-color: #BCA632;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    outline: none;
+    transition-duration: 0.4s;
+}
+
+.next-btn:hover {
+    background-color: #928128;
+}
+
+
+
+.main-content .answer-description-section {
+    background-color: orange;
+    height: 25px;
+    margin: 10px 25px 0px 25px;
+}
+
+/* Style the tab */
+.answer-description-section .tab {
+    overflow: hidden;
+    background-color: #DADADA;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 5px;
+    transition: 0.3s;
+    font-size: 10px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+
+    color: #6B95B4;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    text-decoration: underline;
+    color: #6B95B4;
+
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+    color: black;
+    font-size: x-small;
+}
+
+
+textarea {
+    width: 100%;
+    height: 50px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #b8b8b8;
+    border-radius: 4px;
+    resize: none;
+    overflow: hidden;
+}
+
+
+input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+
+
 .content .submit-content {
-    background-color: green;
+    display: flex;
+    flex-direction: row;
     height: 25px;
     width: 100%;
     margin-top: 10px;
+    align-items: right;
+    justify-content: right;
 }
 
-/* section {
+
+.submit-content #info-btn {
+    width: 15px;
+    background-color: #6B95B4;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition-duration: 0.4s;
+    font-style: italic;
+}
+
+#info-btn:hover {
+    background-color: #00B2CA;
+    ;
+}
+
+.submit-content .submit-btn {
+    width: 100px;
+    background-color: #04AA6D;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition-duration: 0.4s;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.submit-content .cancel-btn {
+    width: 100px;
+    background-color: #D24545;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition-duration: 0.4s;
+}
+
+.cancel-btn:hover {
+    background-color: red;
+}
+
+/* submit btn model  */
+/* Float cancel and confirm buttons and add an equal width */
+
+
+.modal-content button {
+    color: black;
+    padding: 10px 10px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+
+}
+
+.modal-content button:hover {
+    opacity: 1;
+}
+
+/* Float cancel and confirm buttons and add an equal width */
+.cancelbtn,
+.confirmbtn {
+    float: left;
+    width: 50%;
+    outline: none;
+    border: none;
+
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+    background-color: #ccc;
+}
+
+.cancel-btn:hover {
+    background-color: #fffefe;
+}
+
+/* Add a color to the confirm button */
+.confirmbtn {
+    background-color: #04AA6D;
+}
+
+.confirmbtn:hover {
+    background-color: #45a049;
+}
+
+/* Add padding and center-align text to the container */
+.container {
+    padding: 16px;
+    text-align: center;
+    color: black;
+}
+
+/* The Modal (background) */
+.confirmation-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(52, 52, 52, 0.2);
-    order: 1;
-    text-align: center;
-    background-color: white;
-} */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 50px;
 
+}
+
+/* Modal Content/Box */
+.modal-content {
+
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+
+.confirmation-modal hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
 
 footer {
     height: 25px;
@@ -243,56 +766,94 @@ footer {
 }
 
 
-@media(max-width: 700px) {
-
+@media screen and (max-width: 700px) {
     main {
-        flex-direction: column;
+        display: block;
+        padding: 0;
         font-size: auto;
+        overflow-y: auto;
+        height: auto;
     }
 
-    /* left sidebar content */
-    .left-aside {
-        width: 100%;
-        order: 1;
-        transform: rotate(180deg);
-    }
-
-    /* .la-content {
-        transform: rotate(180deg);
-    } */
-
-    /* main content */
-    .content {
-        order: 2;
-    }
-
-
-    /* right sidebar content */
-    .right-aside {
-        width: 100%;
-        order: 3;
-        transform: rotate(180deg);
-    }
-
-    /* .ra-content {
-        transform: rotate(180deg);
-    } */
-
-    /* header */
     .bottom-header .timer-display {
         height: 100%;
         width: 15%;
         background-color: #D44949;
-        opacity: 0.88;
+        opacity: 1;
     }
 
-    /*  footer*/
+    .timer-display h1 {
+        font-size: medium;
+    }
+
+    .timer-display h5 {
+        font-size: small;
+    }
+
+
+    .bottom-header .header-display {
+        width: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .left-quiz-info h6 {
+        font-size: xx-small;
+    }
+
+    .right-quiz-info h6 {
+        font-size: xx-small;
+    }
+
+
+    .content {
+        width: 100%;
+        height: auto;
+        margin: 5px;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .main-content .question-section,
+    .main-content .options-section {
+        margin: 10px;
+        overflow-y: visible;
+    }
+
+    .main-content .navigation-button-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navigation-button-section .prev-btn,
+    .navigation-button-section .skip-btn,
+    .navigation-button-section .next-btn {
+        margin: 5px 0;
+    }
+
+    /* Right sidebar content */
+    .right-aside {
+        width: 100%;
+    }
+
+    /* Left sidebar content */
+    .left-aside {
+        width: 100%;
+        height: 25%;
+        overflow-y: auto;
+    }
 
     .left-footer {
         height: 100%;
         width: 15%;
         background-color: #D44949;
         opacity: 0.88;
+        position: relative;
     }
-
 }
