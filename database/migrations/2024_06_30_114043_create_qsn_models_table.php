@@ -12,14 +12,16 @@ return new class extends Migration {
     {
         Schema::create('qsn_models', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->unsignedInteger('full_mark');
             $table->unsignedInteger('pass_mark');
-            $table->time('time_limit');
+            $table->unsignedInteger('time_limit');
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
             $table->foreignId('faculty_id')->constrained('faculties')->onDelete('cascade');
-            $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
+            $table->foreignId('sub_faculty_id')->constrained('faculties')->onDelete('cascade');
         });
     }
 

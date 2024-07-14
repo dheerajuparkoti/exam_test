@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class QsnModel extends Model
+
+class Subject extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
+
     /**
      * @return BelongsTo
      */
@@ -37,5 +41,12 @@ class QsnModel extends Model
     public function subFaculty()
     {
         return $this->belongsTo(Faculty::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function questionCategories() {
+        return $this->belongsToMany(QsnCategory::class, 'subject_qsn_categories', 'subject_id', 'qsn_category_id')->using(SubjectQuestionCategory::class)->withPivot('id', 'min', 'max', 'qsn_model_id');
     }
 }

@@ -92,9 +92,17 @@
                         <span class="kt-menu__link-text">Sub Faculty</span>
                     </a>
                 </li>
+                <li class="kt-menu__item" aria-haspopup="true">
+                    <a href="{{ route('admin.subject.index') }}" class="kt-menu__link ">
+                    <span class="kt-menu__link-icon">
+                        <i class=""></i>
+                    </span>
+                        <span class="kt-menu__link-text">Subject</span>
+                    </a>
+                </li>
 
 
-
+{{--                Toggable Menu--}}
                 <li class="kt-menu__item  kt-menu__item--submenu m-menu__item--active" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-icon">
@@ -126,7 +134,14 @@
                                             <span class="kt-menu__link-text">Category</span>
                                         </a>
                                     </li>
-
+                            <li class="kt-menu__item kt-menu__item--active" aria-haspopup="true">
+                                <a href="{{ route('admin.question.model.index') }}" class="kt-menu__link ">
+                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="kt-menu__link-text">Models</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
