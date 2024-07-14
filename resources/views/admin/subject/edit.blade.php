@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    Sub Faculty Edit
+    Subject Edit
 @endsection
 
 @section('content')
@@ -8,12 +8,12 @@
         <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
                 <h3 class="kt-portlet__head-title kt-font-primary">
-                    Sub Faculty Edit
+                    Subject Edit
                 </h3>
             </div>
         </div>
-        {{ html()->modelForm($subFaculty, 'put')->route('admin.sub-faculty.update', $subFaculty)->class('kt-form kt-form--label-right')->open() }}
-        @include('admin.subFaculty.form', ['formAction' => 'Update'])
+        {{ html()->modelForm($subject, 'put')->route('admin.subject.update', $subject)->class('kt-form kt-form--label-right')->open() }}
+        @include('admin.subject.form', ['formAction' => 'Update'])
         {{ html()->closeModelForm() }}
     </div>
 @endsection

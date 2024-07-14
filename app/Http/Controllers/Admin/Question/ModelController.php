@@ -1,57 +1,53 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
-use App\Services\FacultyService;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\Question\ModelService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
-class SubFacultyController extends Controller
+class ModelController extends Controller
 {
-    private $view = 'admin.subfaculty.';
+    private $view = 'admin.question.models.';
     /**
      * @var DataTables
      */
     private $dataTables;
     /**
-     * @var FacultyService
+     * @var ModelService
      */
-    private $facultyService;
+    private $modelService;
     /**
      * @var CategoryService
      */
     private $categoryService;
 
     /**
-     * SubFacultyController constructor.
+     * Display a listing of the resource.
      * @param DataTables $dataTables
-     * @param FacultyService $facultyService
+     * @param ModelService $modelService
      * @param CategoryService $categoryService
      */
     public function __construct(
         DataTables $dataTables,
-        FacultyService $facultyService,
+        ModelService $modelService,
         CategoryService $categoryService
     )
     {
         $this->dataTables = $dataTables;
-        $this->facultyService = $facultyService;
+        $this->modelService = $modelService;
         $this->categoryService = $categoryService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        if($request->wantsJson()) {
+        if ($request->wantsJson()) {
             return $this->datatable($request);
         }
-        return view($this->view.'index');
+        return view($this->view . 'index');
     }
 
     /**
@@ -61,7 +57,7 @@ class SubFacultyController extends Controller
     {
         $categories = $this->categoryService->all()->pluck('name', 'id');
 
-        return view($this->view.'create', compact('categories'));
+        return view($this->view . 'create', compact('categories'));
     }
 
     /**
@@ -69,9 +65,9 @@ class SubFacultyController extends Controller
      */
     public function store(Request $request)
     {
-        $this->facultyService->create($request->all());
+        $this->modelService->create($request->all());
 
-        return redirect()->route('admin.sub-faculty.index');
+        return redirect()->route('admin.question.model.index');
     }
 
     /**
@@ -87,10 +83,10 @@ class SubFacultyController extends Controller
      */
     public function edit(string $id)
     {
-        $subFaculty = $this->facultyService->find($id);
+        $model = $this->modelService->find($id);
         $categories = $this->categoryService->all()->pluck('name', 'id');
 
-        return view($this->view.'edit', compact('categories', 'subFaculty'));
+        return view($this->view . 'edit', compact('model', 'categories'));
     }
 
     /**
@@ -98,9 +94,9 @@ class SubFacultyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->facultyService->update($id, $request->all());
+        $this->modelService->update($id, $request->all());
 
-        return redirect()->route('admin.sub-faculty.index');
+        return redirect()->route('admin.question.model.index');
     }
 
     /**
@@ -108,20 +104,11 @@ class SubFacultyController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->facultyService->destroy($id);
+        $this->modelService->destroy($id);
 
         return redirect()->back();
     }
 
-    /**
-     * @param $facultyId
-     * @return Builder[]|Collection
-     */
-    public function subFacultiesByFaculty($facultyId) {
-        $subFaculties = $this->facultyService->query()->where(['parent_id' => $facultyId])->get();
-
-        return $subFaculties;
-    }
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -129,13 +116,13 @@ class SubFacultyController extends Controller
      */
     private function datatable(Request $request)
     {
-        $subFaculties = $this->facultyService->query()->whereNotNull(['parent_id'])->with(['faculty', 'category', 'level'])->get();
-
-        return $this->dataTables->of($subFaculties)
-            ->addColumn('action', function ($subFaculty) {
+        $models = $this->modelService->query()->with(['category', 'level', 'faculty', 'subFaculty'])->get();
+        Log::info('Retrieving all question models', ['models' => $models]);
+        return $this->dataTables->of($models)
+            ->addColumn('action', function ($model) {
                 $params = [
-                    'route' => 'admin.sub-faculty',
-                    'id' => $subFaculty->id,
+                    'route' => 'admin.question.model',
+                    'id' => $model->id,
                     'edit' => true,
                     'delete' => true,
                 ];

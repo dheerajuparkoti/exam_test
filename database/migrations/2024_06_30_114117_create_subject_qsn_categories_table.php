@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('subject_qsn_categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('min');
+            $table->unsignedInteger('max');
             $table->timestamps();
             $table->foreignId('qsn_category_id')->constrained('qsn_categories')->onDelete('Cascade');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('Cascade');
+            $table->foreignId('qsn_model_id')->constrained('qsn_models')->onDelete('Cascade');
         });
     }
 
