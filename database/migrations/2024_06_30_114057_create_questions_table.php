@@ -14,11 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('option_a');
-            $table->string('option_b');
-            $table->string('option_c');
-            $table->string('option_d');
-            $table->string('correct_option', 1);
+            $table->json('options')->nullable();
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
 
             // Making qsn_model_id nullable
