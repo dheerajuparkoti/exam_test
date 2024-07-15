@@ -6,6 +6,7 @@ use App\Services\CategoryService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 //use Illuminate\Support\Facades\Hash;
 
 class CategorySeeder extends Seeder
@@ -21,8 +22,7 @@ class CategorySeeder extends Seeder
      */
     public function __construct(
         CategoryService $categoryService
-    )
-    {
+    ) {
         $this->categoryService = $categoryService;
     }
 
@@ -34,7 +34,6 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name' => 'Licensing Exam'],
             ['name' => 'Public Service Commision'],
-            ['name' => 'Entrance Examination'],
         ];
 
         $this->categoryService->truncate();

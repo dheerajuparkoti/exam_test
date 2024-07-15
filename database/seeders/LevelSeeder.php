@@ -20,8 +20,7 @@ class LevelSeeder extends Seeder
      */
     public function __construct(
         LevelService $levelService
-    )
-    {
+    ) {
         $this->levelService = $levelService;
     }
 
@@ -36,8 +35,7 @@ class LevelSeeder extends Seeder
             ['name' => '7th level', 'category_id' => 2],
             ['name' => '5th level', 'category_id' => 2],
             ['name' => '4th level', 'category_id' => 2],
-            ['name' => 'Diploma', 'category_id' => 3],
-            ['name' => 'Bachelor', 'category_id' => 3],
+            ['name' => 'Diploma', 'category_id' => 2]
         ];
 
         $this->levelService->truncate();
