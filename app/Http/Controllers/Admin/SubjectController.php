@@ -124,6 +124,12 @@ class SubjectController extends Controller
         return redirect()->back();
     }
 
+    public function subjectsBySubFaculty($subFacultyId) {
+        $subjects = $this->subjectService->query()->where(['sub_faculty_id' => $subFacultyId])->get();
+
+        return $subjects;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
