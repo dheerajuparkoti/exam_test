@@ -6,10 +6,10 @@ use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\CategoryController;
 use App\Http\Controllers\Users\LevelController;
 use App\Http\Controllers\Users\FacultyController;
-use App\Http\Controllers\Users\ProgramsController;
 use App\Http\Controllers\Users\QsnCategoryController;
 use App\Http\Controllers\Users\SubjectQsnCategoryController;
-use App\Http\Controllers\Users\SubjectsController;
+use App\Http\Controllers\Users\SubjectController;
+
 use App\Http\Controllers\Users\QuestionsController;
 use App\Http\Controllers\Users\ExamPageController;
 use App\Http\Controllers\Users\LibraryPageController;
@@ -28,14 +28,15 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'users'], function () {
 
 // Group routes for ExamPage
 Route::group(['prefix' => 'exam', 'namespace' => 'Users'], function () {
-    Route::get('/exam-form', [CategoryController::class, 'index'])->name('exam.index');
+    Route::get('/exam-form', [ExamPageController::class, 'index'])->name('exam.index');
     Route::get('/categories/{category}/levels', [LevelController::class, 'getLevelsByCategory'])->name('categories.levels');
     Route::get('/categories/{category}/faculties', [FacultyController::class, 'getFacultiesByCategory'])->name('categories.faculties');
-    Route::get('/faculties/{faculty}/programs', [ProgramsController::class, 'getProgramsByFaculty'])->name('faculties.programs');
-    Route::get('/programs/{program}/subjects', [SubjectsController::class, 'getSubjectsByProgram'])->name('programs.subjects');
+    Route::get('/faculties/{faculty}/sub-faculties', [FacultyController::class, 'getSubFacultiesByFaculty'])->name('faculties.subFaculties');
+    Route::get('/sub-faculties/{subFaculty}/subjects', [SubjectController::class, 'getSubjectsBySubFaculty'])->name('subFaculties.subjects');
     Route::get('/qsnCategories/{subject}/qsn_types', [QsnCategoryController::class, 'getQsnTypeBySubject'])->name('subjects.QsnType');
 
-    Route::get('/exam-test', [ExamPageController::class, 'index'])->name('examtest.index');
+    Route::get('/exam-room', [ExamPageController::class, 'loadRoom'])->name('exam.room');
+    Route::get('/exam-room/random/{qsn_model_id}', [ExamPageController::class, 'getRandomQuestions'])->name('load.questions');
 });
 
 

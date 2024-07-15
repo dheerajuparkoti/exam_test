@@ -16,15 +16,11 @@ class SubjectSeeder extends Seeder
         $subjects = [
             //License Exam
             //For Computer Engineerng 
-            ['name' => 'DSA', 'program_id' => '4'],
-            ['name' => 'OS', 'program_id' => '4'],
-            ['name' => 'OOSE', 'program_id' => '4'],
-            ['name' => 'DBMS', 'program_id' => '4'],
-            ['name' => 'Computer Architecture', 'program_id' => '4'],
-            ['name' => 'Microprocessor', 'program_id' => '4'],
-            ['name' => 'Web Technology', 'program_id' => '4'],
-            ['name' => 'Mathematics I', 'program_id' => '4'],
-            ['name' => 'Embedded System', 'program_id' => '4'],
+            ['name' => 'DSA', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '2'],
+            ['name' => 'OS', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '2'],
+            ['name' => 'DBMS', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '2'],
+            ['name' => 'Simulation & Modeling', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '2'],
+            ['name' => 'Embedded System', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '2'],
         ];
         DB::table('subjects')->insert($subjects);
     }

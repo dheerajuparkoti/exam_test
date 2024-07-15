@@ -14,7 +14,7 @@ class QsnModelSeeder extends Seeder
     public function run(): void
     {
         $qsnModel = [
-            ['full_mark' => '15', 'pass_mark' => '5', 'time_limit' => '30', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'program_id' => '4'],
+            ['name' => 'Second Model', 'full_mark' => '100', 'pass_mark' => '40', 'time_limit' => '30', 'is_default' => '0', 'category_id' => '1', 'level_id' => '1', 'faculty_id' => '1', 'sub_faculty_id' => '1'],
         ];
         DB::table('qsn_models')->insert($qsnModel);
     }

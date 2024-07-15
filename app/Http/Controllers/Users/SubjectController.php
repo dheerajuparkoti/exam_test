@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subjects;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
-class SubjectsController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class SubjectsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Subjects $subjects)
+    public function show(Subject $subjects)
     {
         //
     }
@@ -43,7 +43,7 @@ class SubjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Subjects $subjects)
+    public function edit(Subject $subjects)
     {
         //
     }
@@ -51,7 +51,7 @@ class SubjectsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subjects $subjects)
+    public function update(Request $request, Subject $subjects)
     {
         //
     }
@@ -59,14 +59,14 @@ class SubjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subjects $subjects)
+    public function destroy(Subject $subjects)
     {
         //
     }
 
-    public function getSubjectsByProgram($programId)
+    public function getSubjectsBySubFaculty($subFacultyId)
     {
-        $subjects = Subjects::where('program_id', $programId)->get();
+        $subjects = Subject::where('sub_faculty_id', $subFacultyId)->get();
         return response()->json($subjects);
     }
 }

@@ -19,26 +19,12 @@ class FacultySeeder extends Seeder
         id 2 means bachelore level
         id 5 means diploma level
         */
-       $faculty=[        
-        //Engineering Licensingj
-        ['name'=>'Science & Technology','category_id'=>'1'],
-        ['name'=>'Management','category_id'=>'1'],
-        ['name'=>'Health Sciences','category_id'=>'1'],
-        ['name'=>'Humanities & Social Sciences','category_id'=>'1'],
-        //PSC for Engineering only.
-        ['name'=>'Civil Engineering','category_id'=>'2'],
-        ['name'=>'Computer Engineering','category_id'=>'2'],
-        ['name'=>'Electrical Engineering','category_id'=>'2'],
-        ['name'=>'Mechanical Engineering','category_id'=>'2'],
-        ['name'=>'Electronics Engineering','category_id'=>'2'],
-        ['name'=>'Chemical Engineering','category_id'=>'2'],
-        ['name'=>'Petroleum Engineering','category_id'=>'2'],
-        ['name'=>'Architecture','category_id'=>'2'],
-        ['name'=>'Agriculture','category_id'=>'2'],       
+        $faculty = [
+            //Engineering Licensingj
+            ['name' => 'Science & Technology', 'category_id' => '1', 'level_id' => '1', 'parent_id' => NULL],
+        ];
 
-       ];
-
-       DB::table('faculties')->insert($faculty);
+        DB::table('faculties')->insert($faculty);
 
     }
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Interface</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/users/examform.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/users/exam_room.css') }}">
 </head>
 
 
@@ -89,24 +89,25 @@
                 {{-- confirmation model ends --}}
 
                 <div class="question-section">
-                    <h5> <span>1.</span> The study of scientic principles to design and build machines,structure is
-                        known as
+                    <h5> <span id="current_qsn_no"></span> <span id="question_title"></span>
                     </h5>
                 </div>
                 <div class = "options-section">
-                    <button class ="options-button"><span class= "option-1">A</span> Engineering The study of scientic
-                        principles to design and
-                        build machines,structure</button>
-                    <button class ="options-button"><span class= "option-2">B</span> Chemistry</button>
-                    <button class ="options-button"><span class= "option-3">C</span> Architecture</button>
-                    <button class ="options-button"><span class= "option-4">D</span> Astronomy</button>
+                    <button class ="options-button"><span class= "option-alphabet">A</span> <span
+                            id="option-1"></span></button>
+                    <button class ="options-button"><span class= "option-alphabet">B</span> <span
+                            id="option-2"></span></button>
+                    <button class ="options-button"><span class= "option-alphabet">C</span> <span
+                            id="option-3"></span></button>
+                    <button class ="options-button"><span class= "option-alphabet">D</span> <span
+                            id="option-4"></span></button>
                 </div>
                 <hr>
                 <div class ="navigation-button-section">
-                    <button class ="prev-btn"> <span>
+                    <button class ="prev-btn" onclick="prevQuestions()"> <span>
                             << PREVIOUS</span></button>
-                    <button class ="skip-btn"><span>SKIP</span></button>
-                    <button class ="next-btn"><span>NEXT >></span></button>
+                    <button class ="skip-btn" onclick="skippedQuestion()"><span>SKIP</span></button>
+                    <button class ="next-btn" onclick="nextQuestion()"><span>NEXT >></span></button>
                 </div>
                 <hr>
                 <section class ="answer-description-section">
@@ -145,19 +146,22 @@
                     <div class= "mark-buttons">
                         {{-- @for ($i = 1; $i <= $totalQuestions; $i++) --}}
                         @for ($i = 1; $i <= 100; $i++)
-                            <button class="button button1">{{ $i }}</button>
+                            <button id="q{{ $i }}"class="button button1">{{ $i }}</button>
+                            {{-- @dump("Button ID: q{$i}") --}}
                         @endfor
                     </div>
                 </div>
                 <div class="question-indexes">
                     <hr>
-                    <h6><span class= "round-dot1"></span> Total Questions : <span>100</span></h6>
+                    <h6><span class= "round-dot1"></span> Total Questions : <span id="count-total-qsn"></span></h6>
 
-                    <h6><span class= "round-dot2"></span> Answered Questions : <span>9</span></h6>
+                    <h6><span class= "round-dot2"></span> Answered Questions : <span id="count-answered-qsn"></span>
+                    </h6>
 
-                    <h6><span class= "round-dot3"></span> Skipped Questions : <span>6</span></h6>
+                    <h6><span class= "round-dot3"></span> Skipped Questions : <span id="count-skipped-qsn"></span></h6>
 
-                    <h6><span class= "round-dot4"></span> Current Question : <span>16</span></h6>
+                    <h6><span class= "round-dot4"></span> Current Question : <span id= "track-current-qsn"></span>
+                    </h6>
                 </div>
             </div>
         </div>
@@ -174,7 +178,94 @@
     {{-- javascripts --}}
 
     {{-- for count down timer --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        var currentQsnModelId = 2; // Initial question model ID
+        var qsnSN = 1; // Initial question number
+
+
+        loadNextQuestion();
+        currentQuestion();
+        // var countTotalQsn = 0;
+        var countAnsweredQsn = 0;
+        var countSkippedQsn = 0;
+
+        function loadNextQuestion() {
+            currentQuestion();
+            $.ajax({
+                url: '{{ route('load.questions', ':qsn_model_id') }}'.replace(':qsn_model_id', currentQsnModelId),
+                method: 'GET',
+                success: function(response) {
+                    // Update question number
+                    $('#current_qsn_no').text(qsnSN + '.');
+                    $('#current_qsn_id_label').text('Question ID: ' + response[0]
+                        .id); // Update question ID display in label
+                    $('#current_qsn_id').val(response[0].id); // Assuming you have a hidden input for qsn_id
+
+
+                    // Update question title
+                    $('#question_title').text(response[0].title);
+
+                    // Update options (assuming response.options is an array or similar structure)
+                    $('#option-1').html(response[0].options);
+                    $('#option-2').html(response[1].options);
+                    $('#option-3').html(response[2].options);
+                    $('#option-4').html(response[3].options);
+                    qsnSN++; // Increment question number for next question
+
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading question:', error);
+                    alert('Error loading question. Please try again later.');
+
+                    // Log the error
+                    $.ajax({
+                        url: '/log-error',
+                        method: 'POST',
+                        data: {
+                            error: error
+                        },
+                        success: function(response) {
+                            console.log('Error logged successfully:', response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Failed to log error:', error);
+                        }
+                    });
+                }
+            });
+        }
+
+
+        // mark buttons
+
+        function skippedQuestion() {
+            currentQuestion();
+            loadNextQuestion();
+            countSkippedQsn++;
+            var btnId = 'q' + (qsnSN - 1);
+            $('#' + btnId).css('background-color', '#DE8C8C');
+            $('#count-skipped-qsn').text(countSkippedQsn);
+
+        }
+
+
+        function currentQuestion() {
+            var btnId = 'q' + (qsnSN);
+            $('#' + btnId).css('background-color', '#FEE14B');
+            $('#track-current-qsn').text(qsnSN);
+        }
+
+        function nextQuestion() {
+            countAnsweredQsn++;
+            loadNextQuestion();
+            var btnId = 'q' + (qsnSN - 1);
+            $('#' + btnId).css('background-color', '#A1FF9F');
+            $('#count-answered-qsn').text(countAnsweredQsn);
+        }
+        // Mark button end
+
         function startTimer(duration, display) {
             var timer = duration,
                 minutes, seconds;

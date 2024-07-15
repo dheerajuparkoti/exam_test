@@ -19,10 +19,8 @@ return new class extends Migration {
 
             // Making qsn_model_id nullable
             $table->foreignId('qsn_model_id')->nullable()->constrained('qsn_models')->onDelete('cascade');
-
             // Making the qsn_category_id column nullable
             $table->foreignId('qsn_category_id')->nullable()->constrained('qsn_categories')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

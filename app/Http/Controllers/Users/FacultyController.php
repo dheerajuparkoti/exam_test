@@ -21,12 +21,15 @@ class FacultyController extends Controller
 
     public function getFacultiesByCategory(Request $request, $category)
     {
-        // Assuming you have a Category model and want to fetch faculties
-        // associated with the given $category ID
         $faculties = Faculty::where('category_id', $category)->get();
-
-        // Return JSON response or however you wish to handle the response
         return response()->json($faculties);
+    }
+
+
+    public function getSubFacultiesByFaculty(Request $request, $facultyId)
+    {
+        $sub_faculties = Faculty::where('parent_id', $facultyId)->get();
+        return response()->json($sub_faculties);
     }
 
     /**

@@ -215,6 +215,68 @@ table th {
     cursor: pointer;
 }
 
+.loader {
+    position: relative;
+    border: 16px solid yellow;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    /* Remove -webkit- prefix for broader compatibility */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.full-page-loader {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 9999;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: hidden;
+    /* Disable scrolling */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black background with opacity */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.progress-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-text {
+    z-index: 1;
+    color: white;
+    font-size: 1.5em;
+}
+
 /* Footer */
 .footer {
     display: flex;
@@ -251,5 +313,7 @@ table th {
         /* Move question nav above question content on mobile */
     }
 }
+
+
 
 /* exam ends css */
