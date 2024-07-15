@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Question\CategoryController as QuestionCategoryController;
 use App\Http\Controllers\Admin\Question\ModelController as QuestionModelController;
+use App\Http\Controllers\Admin\Question\QuestionController;
 use App\Http\Controllers\Admin\Question\SubjectCategoryController as QuestionSubjectCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacultyController;
@@ -18,6 +19,7 @@ Route::resource('/faculty', FacultyController::class);
 Route::resource('/sub-faculty', SubFacultyController::class);
 Route::resource('/subject', SubjectController::class);
 Route::prefix('question')->name('question.')->group(function() {
+    Route::resource('/', QuestionController::class);
     Route::resource('category', QuestionCategoryController::class);
     Route::resource('model', QuestionModelController::class);
     Route::delete('subject/{subject}/category/{category}', [QuestionSubjectCategoryController::class, 'delete'])->name('subject.category.destroy');
@@ -27,3 +29,5 @@ Route::prefix('question')->name('question.')->group(function() {
 Route::get('/api/category/{categoryId}/levels', [LevelController::class, 'levelsByCategory']);
 Route::get('/api/level/{levelId}/faculties', [FacultyController::class, 'facultiesByLevel']);
 Route::get('/api/faculty/{facultyId}/sub-faculties', [SubFacultyController::class, 'subFacultiesByFaculty']);
+Route::get('/api/sub-faculty/{subFacultyId}/models', [QuestionModelController::class, 'modelsBySubFaculty']);
+Route::get('/api/sub-faculty/{subFacultyId}/subjects', [SubjectController::class, 'subjectsBySubFaculty']);

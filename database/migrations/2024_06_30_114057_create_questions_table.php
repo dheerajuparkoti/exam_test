@@ -15,12 +15,12 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->json('options')->nullable();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
+            $table->foreignId('faculty_id')->nullable()->constrained('faculties')->onDelete('cascade');
+            $table->foreignId('sub_faculty_id')->nullable()->constrained('faculties')->onDelete('cascade');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
-
-            // Making qsn_model_id nullable
-            $table->foreignId('qsn_model_id')->nullable()->constrained('qsn_models')->onDelete('cascade');
-            // Making the qsn_category_id column nullable
-            $table->foreignId('qsn_category_id')->nullable()->constrained('qsn_categories')->onDelete('cascade');
+             $table->foreignId('qsn_category_id')->nullable()->constrained('qsn_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

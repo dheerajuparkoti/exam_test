@@ -4,42 +4,50 @@ namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
-use App\Services\Question\ModelService;
+use App\Services\Question\CategoryService as QsnCategoryService;
+use App\Services\Question\QuestionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
-class ModelController extends Controller
+class QuestionController extends Controller
 {
-    private $view = 'admin.question.models.';
+    private $view = 'admin.question.question.';
     /**
      * @var DataTables
      */
     private $dataTables;
     /**
-     * @var ModelService
+     * @var QuestionService
      */
-    private $modelService;
+    private $questionService;
     /**
      * @var CategoryService
      */
     private $categoryService;
+    /**
+     * @var QsnCategoryService
+     */
+    private $qsnCategoryService;
 
     /**
      * Display a listing of the resource.
      * @param DataTables $dataTables
-     * @param ModelService $modelService
+     * @param QuestionService $questionService
      * @param CategoryService $categoryService
+     * @param QsnCategoryService $qsnCategoryService
      */
     public function __construct(
         DataTables $dataTables,
-        ModelService $modelService,
-        CategoryService $categoryService
+        QuestionService $questionService,
+        CategoryService $categoryService,
+        QsnCategoryService $qsnCategoryService
     )
     {
         $this->dataTables = $dataTables;
-        $this->modelService = $modelService;
+        $this->questionService = $questionService;
         $this->categoryService = $categoryService;
+        $this->qsnCategoryService = $qsnCategoryService;
     }
 
     public function index(Request $request)
@@ -56,8 +64,9 @@ class ModelController extends Controller
     public function create()
     {
         $categories = $this->categoryService->all()->pluck('name', 'id');
+        $qsnCategories = $this->qsnCategoryService->all()->pluck('name', 'id');
 
-        return view($this->view . 'create', compact('categories'));
+        return view($this->view . 'create', compact('categories', 'qsnCategories'));
     }
 
     /**
@@ -65,9 +74,9 @@ class ModelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->modelService->create($request->all());
+        $this->questionService->create($request->all());
 
-        return redirect()->route('admin.question.model.index');
+        return redirect()->route('admin.question.index');
     }
 
     /**
@@ -83,10 +92,9 @@ class ModelController extends Controller
      */
     public function edit(string $id)
     {
-        $model = $this->modelService->find($id);
-        $categories = $this->categoryService->all()->pluck('name', 'id');
+        $question = $this->questionService->find($id);
 
-        return view($this->view . 'edit', compact('model', 'categories'));
+        return view($this->view . 'edit', compact('question'));
     }
 
     /**
@@ -94,9 +102,10 @@ class ModelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->modelService->update($id, $request->all());
 
-        return redirect()->route('admin.question.model.index');
+        $this->questionService->update($id, $request->all());
+
+        return redirect()->route('admin.question.index');
     }
 
     /**
@@ -104,15 +113,9 @@ class ModelController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->modelService->destroy($id);
+        $this->questionService->destroy($id);
 
         return redirect()->back();
-    }
-
-    public function modelsBySubFaculty($subFacultyId) {
-        $models = $this->modelService->query()->where(['sub_faculty_id' => $subFacultyId])->get();
-
-        return $models;
     }
 
     /**
@@ -122,20 +125,29 @@ class ModelController extends Controller
      */
     private function datatable(Request $request)
     {
-        $models = $this->modelService->query()->with(['category', 'level', 'faculty', 'subFaculty'])->get();
-        Log::info('Retrieving all question models', ['models' => $models]);
-        return $this->dataTables->of($models)
-            ->addColumn('action', function ($model) {
+        $questions = $this->questionService->query()->with(['qsnCategory', 'subject'])->get();
+        Log::info('Retrieving all questions', ['questions' => $questions]);
+        return $this->dataTables->of($questions)
+            ->editColumn('options', function($question) {
+                $options='<ul>';
+                foreach($question->options as $option) {
+                    $class=($option['is_correct'] == 1) ? "bg-success" : "";
+                    $options.='<li class='.$class.'>'.$option['option'].'</li>';
+                }
+                $options.='<ul>';
+                return $options;
+            })
+            ->addColumn('action', function ($question) {
                 $params = [
-                    'route' => 'admin.question.model',
-                    'id' => $model->id,
+                    'route' => 'admin.question',
+                    'id' => $question->id,
                     'edit' => true,
                     'delete' => true,
                 ];
 
                 return view('admin.layouts.datatable.action', compact('params'));
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'options'])
             ->addIndexColumn()
             ->make(true);
     }
