@@ -119,6 +119,7 @@ class ModelController extends Controller
     }
 
     public function getSubjectCategoriesByModel($modelId) {
+        $this->checkModel($modelId);
         $subjectQuestionCategories = SubjectQuestionCategory::where(['qsn_model_id' => $modelId])->with(['subject', 'qsnCategory']);
 
         return $this->dataTables->of($subjectQuestionCategories)
@@ -151,5 +152,21 @@ class ModelController extends Controller
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function checkModel($modelId) {
+        $model = $this->modelService->find($modelId)->load(['questionCategories.qsnCategory']);
+        $subjectQuestionCategories = $model->questionCategories;
+        $min = 0;
+        $max = 0;
+        foreach($subjectQuestionCategories as $qsnCategory) {
+            $min+=  $qsnCategory->min * $qsnCategory->qsnCategory->weightage;
+            $max+=  $qsnCategory->max * $qsnCategory->qsnCategory->weightage;
+        }
+        if($model->full_marks >= $min && $model->full_marks <= $max) {
+            return true;
+        }
+        return false;
+
     }
 }
