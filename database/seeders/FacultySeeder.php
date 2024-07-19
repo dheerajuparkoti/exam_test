@@ -14,17 +14,25 @@ class FacultySeeder extends Seeder
     public function run(): void
     {
         /*
-        notes 
-        id 
+        notes
+        id
         id 2 means bachelore level
         id 5 means diploma level
         */
-        $faculty = [
+        $faculties = [
             //Engineering Licensingj
-            ['name' => 'Science & Technology', 'category_id' => '1', 'level_id' => '1', 'parent_id' => NULL],
+            ['name' => 'Engineering', 'category_id' => 1, 'level_id' => 1, 'parent_id' => NULL],
+            ['name' => 'Nursing', 'category_id' => 1, 'level_id' => 1, 'parent_id' => NULL],
+        ];
+        $subFaculties = [
+            ['name' => 'Computer', 'category_id' => 1, 'level_id' => 1, 'parent_id' => 1],
+            ['name' => 'Civil', 'category_id' => 1, 'level_id' => 1, 'parent_id' => 1],
         ];
 
-        DB::table('faculties')->insert($faculty);
+        DB::table('faculties')->truncate();
+        DB::table('faculties')->insert($faculties);
+        DB::table('faculties')->insert($subFaculties);
+
 
     }
 }

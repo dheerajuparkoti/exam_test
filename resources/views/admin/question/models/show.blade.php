@@ -57,7 +57,6 @@
                     <th>Category</th>
                     <th>Min</th>
                     <th>Max</th>
-                    <th style="text-align: center">Actions</th>
                 </tr>
                 </thead>
             </table>
@@ -79,11 +78,10 @@
             order: [[1, 'asc']],
             columns: [
                 {data: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
-                {data: 'name', name: 'name'},
-                {data: 'qsnModel', name: 'qsnModel'},
-                {data: 'pivot.min', name: 'pivot.min'},
-                {data: 'pivot.max', name: 'pivot.max'},
-                {data: 'action', 'name': 'action', searchable: false, orderable: false, className: 'dt-body-center'}
+                {data: 'subject.name', name: 'subject.name'},
+                {data: 'qsn_category.name', name: 'qsnCategory.name'},
+                {data: 'min', name: 'min'},
+                {data: 'max', name: 'max'},
             ],
         });
     </script>

@@ -23,6 +23,7 @@ class QsnCategorySeeder extends Seeder
             ['name' => 'very long', 'weightage' => '8', 'is_objective' => '0'],
             ['name' => 'very long', 'weightage' => '10', 'is_objective' => '0'],
         ];
+        DB::table('qsn_categories')->truncate();
         DB::table('qsn_categories')->insert($qsnCategory);
     }
 }

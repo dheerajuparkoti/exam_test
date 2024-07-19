@@ -40,8 +40,8 @@ class QuestionSeeder extends Seeder
                 'category_id' => 1,
                 'level_id' => 1,
                 'faculty_id' => 1,
-                'sub_faculty_id' => 2,
-                'subject_id' => 2,
+                'sub_faculty_id' => 3,
+                'subject_id' => rand(1,3),
                 'qsn_category_id' => 1,
             ]);
         }

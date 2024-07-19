@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class QsnModel extends Model
 {
@@ -38,8 +39,6 @@ class QsnModel extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
-
-
 
     // Define the relationship with Question Categories
     public function questionCategories()

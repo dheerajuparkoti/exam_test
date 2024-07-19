@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
+use App\Models\SubjectQuestionCategory;
 use App\Services\CategoryService;
 use App\Services\Question\ModelService;
 use Illuminate\Http\Request;
@@ -115,6 +116,15 @@ class ModelController extends Controller
         $models = $this->modelService->query()->where(['sub_faculty_id' => $subFacultyId])->get();
 
         return $models;
+    }
+
+    public function getSubjectCategoriesByModel($modelId) {
+        $subjectQuestionCategories = SubjectQuestionCategory::where(['qsn_model_id' => $modelId])->with(['subject', 'qsnCategory']);
+
+        return $this->dataTables->of($subjectQuestionCategories)
+            ->addIndexColumn()
+            ->make(true);
+
     }
 
     /**
