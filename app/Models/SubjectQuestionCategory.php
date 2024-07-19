@@ -11,7 +11,10 @@ class SubjectQuestionCategory extends Pivot
     use HasFactory;
     protected $table = 'subject_qsn_categories';
 
-    public function model() {
+    public function model()
+    {
         return $this->belongsTo(QsnModel::class, 'qsn_model_id', 'id');
     }
+
+
 }

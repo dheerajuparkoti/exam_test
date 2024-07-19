@@ -7,6 +7,7 @@ use App\Http\Controllers\Users\CategoryController;
 use App\Http\Controllers\Users\LevelController;
 use App\Http\Controllers\Users\FacultyController;
 use App\Http\Controllers\Users\QsnCategoryController;
+use App\Http\Controllers\Users\QsnModelController;
 use App\Http\Controllers\Users\SubjectQsnCategoryController;
 use App\Http\Controllers\Users\SubjectController;
 
@@ -15,6 +16,7 @@ use App\Http\Controllers\Users\ExamPageController;
 use App\Http\Controllers\Users\LibraryPageController;
 use App\Http\Controllers\Users\HallPageController;
 use App\Http\Controllers\Users\AboutPageController;
+use App\Models\QsnModel;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,6 +39,7 @@ Route::group(['prefix' => 'exam', 'namespace' => 'Users'], function () {
 
     Route::get('/exam-room', [ExamPageController::class, 'loadRoom'])->name('exam.room');
     Route::get('/exam-room/random/{qsn_model_id}', [ExamPageController::class, 'getRandomQuestions'])->name('load.questions');
+    Route::get('/exam-form/models', [QsnModelController::class, 'getModels'])->name('question.models');
 });
 
 

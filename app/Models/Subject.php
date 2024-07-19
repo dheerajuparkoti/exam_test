@@ -42,11 +42,18 @@ class Subject extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+    public function qsnModel()
+    {
+        return $this->belongsTo(QsnModel::class, 'qsn_model_id');
+    }
 
     /**
      * @return BelongsToMany
      */
-    public function questionCategories() {
+    public function questionCategories()
+    {
         return $this->belongsToMany(QsnCategory::class, 'subject_qsn_categories', 'subject_id', 'qsn_category_id')->using(SubjectQuestionCategory::class)->withPivot('id', 'min', 'max', 'qsn_model_id');
     }
+
+
 }

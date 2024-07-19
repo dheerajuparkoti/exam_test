@@ -38,4 +38,12 @@ class QsnModel extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+
+
+
+    // Define the relationship with Question Categories
+    public function questionCategories()
+    {
+        return $this->hasMany(SubjectQuestionCategory::class, 'qsn_model_id');
+    }
 }
