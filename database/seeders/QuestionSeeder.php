@@ -15,14 +15,34 @@ class QuestionSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        foreach (range(1, 1) as $index) {
+        foreach (range(1, 100) as $index) {
             DB::table('questions')->insert([
-                'title' => $faker->name,
+                'title' => $faker->name(),
                 'description' => $faker->firstNameFemale(),
-                'options' => $faker->colorName(),
-                'subject_id' => $faker->numberBetween(1, 2),
-                'qsn_model_id' => 3,
-                'qsn_category_id' => $faker->numberBetween(1, 1),
+                'options' => json_encode([ // Convert the array to a JSON string
+                    [
+                        'option' => $faker->name(),
+                        'is_correct' => 1,
+                    ],
+                    [
+                        'option' => $faker->firstName(),
+                        'is_correct' => 0,
+                    ],
+                    [
+                        'option' => $faker->lastName(),
+                        'is_correct' => 0,
+                    ],
+                    [
+                        'option' => $faker->colorName(),
+                        'is_correct' => 0,
+                    ],
+                ]),
+                'category_id' => 1,
+                'level_id' => 1,
+                'faculty_id' => 1,
+                'sub_faculty_id' => 2,
+                'subject_id' => 2,
+                'qsn_category_id' => 1,
             ]);
         }
     }

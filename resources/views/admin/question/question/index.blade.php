@@ -7,9 +7,9 @@
     <div class="kt-portlet">
         <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
-                {{--                <span class="kt-portlet__head-icon">--}}
-                {{--                    <i class="flaticon-calendar"></i>--}}
-                {{--                </span>--}}
+                {{--                <span class="kt-portlet__head-icon"> --}}
+                {{--                    <i class="flaticon-calendar"></i> --}}
+                {{--                </span> --}}
                 <h3 class="kt-portlet__head-title kt-font-primary">
                     Question Listing
                 </h3>
@@ -23,17 +23,18 @@
             </div>
         </div>
         <div class="kt-portlet__body">
-            <table class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer" width="100%" id="question-table">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer"
+                width="100%" id="question-table">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Subject</th>
-                    <th>Category</th>
-                    <th>Question</th>
-                    <th>Description</th>
-                    <th>Options</th>
-                    <th style="text-align: center">Actions</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Question</th>
+                        <th>Description</th>
+                        <th>Options</th>
+                        <th style="text-align: center">Actions</th>
+                    </tr>
                 </thead>
             </table>
         </div>
@@ -65,4 +66,3 @@
         });
     </script>
 @endpush
-

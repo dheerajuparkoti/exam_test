@@ -42,8 +42,7 @@ class QuestionController extends Controller
         QuestionService $questionService,
         CategoryService $categoryService,
         QsnCategoryService $qsnCategoryService
-    )
-    {
+    ) {
         $this->dataTables = $dataTables;
         $this->questionService = $questionService;
         $this->categoryService = $categoryService;
@@ -128,13 +127,13 @@ class QuestionController extends Controller
         $questions = $this->questionService->query()->with(['qsnCategory', 'subject'])->get();
         Log::info('Retrieving all questions', ['questions' => $questions]);
         return $this->dataTables->of($questions)
-            ->editColumn('options', function($question) {
-                $options='<ul>';
-                foreach($question->options as $option) {
-                    $class=($option['is_correct'] == 1) ? "bg-success" : "";
-                    $options.='<li class='.$class.'>'.$option['option'].'</li>';
+            ->editColumn('options', function ($question) {
+                $options = '<ul>';
+                foreach ($question->options as $option) {
+                    $class = (isset($option['is_correct'])) ? "bg-success" : "";
+                    $options .= '<li class=' . $class . '>' . $option['option'] . '</li>';
                 }
-                $options.='<ul>';
+                $options .= '<ul>';
                 return $options;
             })
             ->addColumn('action', function ($question) {
