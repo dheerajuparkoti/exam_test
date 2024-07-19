@@ -21,6 +21,7 @@ Route::resource('/subject', SubjectController::class);
 Route::prefix('question')->name('question.')->group(function() {
     Route::resource('/', QuestionController::class);
     Route::resource('category', QuestionCategoryController::class);
+    Route::get('model/{model}/subject-categories', [QuestionModelController::class, 'getSubjectCategoriesByModel'])->name('model.subject.categories');
     Route::resource('model', QuestionModelController::class);
     Route::delete('subject/{subject}/category/{category}', [QuestionSubjectCategoryController::class, 'delete'])->name('subject.category.destroy');
     Route::resource('subject.category', QuestionSubjectCategoryController::class)->except('delete');

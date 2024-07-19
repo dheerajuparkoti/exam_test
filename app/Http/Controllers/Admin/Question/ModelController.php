@@ -75,7 +75,9 @@ class ModelController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $model = $this->modelService->findOrFail($id)->load(['category', 'level', 'faculty', 'subFaculty']);
+
+        return view($this->view.'show', compact('model'));
     }
 
     /**
@@ -131,6 +133,7 @@ class ModelController extends Controller
                     'id' => $model->id,
                     'edit' => true,
                     'delete' => true,
+                    'show' => true
                 ];
 
                 return view('admin.layouts.datatable.action', compact('params'));
