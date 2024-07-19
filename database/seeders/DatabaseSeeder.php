@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         $this->call(CategorySeeder::class);
         $this->call(LevelSeeder::class);
+        $this->call(FacultySeeder::class);
+        $this->call(SubjectSeeder::class);
+        $this->call(QsnCategorySeeder::class);
+        $this->call(QsnModelSeeder::class);
+        $this->call(SubjectQsnCategorySeeder::class);
+        $this->call(QuestionSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

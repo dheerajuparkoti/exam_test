@@ -34,6 +34,7 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name' => 'Licensing Exam'],
             ['name' => 'Public Service Commision'],
+            ['name' => "Entrance Exam"]
         ];
 
         $this->categoryService->truncate();

@@ -17,10 +17,6 @@ class Faculty extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function programs()
-    {
-        return $this->hasMany(Programs::class);
-    }
     public function category()
     {
         return $this->belongsTo(Category::class);

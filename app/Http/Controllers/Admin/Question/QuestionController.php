@@ -130,7 +130,7 @@ class QuestionController extends Controller
             ->editColumn('options', function ($question) {
                 $options = '<ul>';
                 foreach ($question->options as $option) {
-                    $class = (isset($option['is_correct'])) ? "bg-success" : "";
+                    $class = (isset($option['is_correct']) && $option['is_correct'] == 1) ? "bg-success" : "";
                     $options .= '<li class=' . $class . '>' . $option['option'] . '</li>';
                 }
                 $options .= '<ul>';

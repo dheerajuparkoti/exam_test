@@ -16,5 +16,13 @@ class SubjectQuestionCategory extends Pivot
         return $this->belongsTo(QsnModel::class, 'qsn_model_id', 'id');
     }
 
+    public function subject() {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function qsnCategory() {
+        return $this->belongsTo(QsnCategory::class);
+    }
+
 
 }
