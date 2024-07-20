@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\QsnModel;
+use App\Services\Question\ModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,28 +17,36 @@ use App\Models\QsnCategory;
 class QsnModelController extends Controller
 {
     /**
+     * @var ModelService
+     */
+    private $modelService;
+
+    /**
+     * QsnModelController constructor.
+     * @param ModelService $modelService
+     */
+    public function __construct(
+        ModelService $modelService
+    )
+    {
+        $this->modelService = $modelService;
+    }
+
+    /**
      * Display a listing of the resource.
      */
-
-    public function getModels(Request $request)
+    public function getModels(Request $request) {
+        $models = $this->modelService->getWhere(['sub_faculty_id' => $request->query('sub_faculty_id')]);
+        $result =[];
+        foreach($models as $model) {
+            if($this->checkModel($model->id)) {
+                $result['models'] = $models;
+            }
+        }
+        return response()->json($result);
+    }
+    public function getModels1(Request $request)
     {
-        // // Retrieve the query parameters
-        // $categoryId = $request->query('category_id');
-        // $levelId = $request->query('level_id');
-        // $facultyId = $request->query('faculty_id');
-        // $subFacultyId = $request->query('sub_faculty_id');
-
-        // // Perform your logic to retrieve and filter the data based on these parameters
-        // // Example:
-        // $models = \DB::table('qsn_models')
-        //     ->where('category_id', $categoryId)
-        //     ->where('level_id', $levelId)
-        //     ->where('faculty_id', $facultyId)
-        //     ->where('sub_faculty_id', $subFacultyId)
-        //     ->get();
-
-        // // Return the filtered data as JSON response
-        // return response()->json($models);
         $categoryId = $request->query('category_id');
         $levelId = $request->query('level_id');
         $facultyId = $request->query('faculty_id');
@@ -179,6 +188,64 @@ class QsnModelController extends Controller
 
 
     }
+
+    public function checkModel($modelId)
+    {
+        $model = $this->modelService->find($modelId)->load(['questionCategories.qsnCategory']);
+        $subjectQuestionCategories = $model->questionCategories;
+        $min = 0;
+        $max = 0;
+        foreach ($subjectQuestionCategories as $qsnCategory) {
+            $min += $qsnCategory->min * $qsnCategory->qsnCategory->weightage;
+            $max += $qsnCategory->max * $qsnCategory->qsnCategory->weightage;
+        }
+        if ($model->full_marks >= $min && $model->full_marks <= $max) {
+            return true;
+        }
+        return false;
+    }
+    public function distribution(Request $request)
+    {
+        $model = $this->modelService->find($request->query('model_id'))->load(['questionCategories.qsnCategory']);
+        $subjectQuestionCategories = $model->questionCategories;
+        $weightage = 0;
+        foreach ($subjectQuestionCategories as $qsnCategory) {
+            $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] = rand($qsnCategory->min, $qsnCategory->max);
+            $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['weightage'] = $qsnCategory->qsnCategory->weightage;
+            $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] = $qsnCategory->max - $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'];
+            $weightage += $qsnCategory->qsnCategory->weightage * $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'];
+        }
+        $remainingWeightage = $model->fullMark - $weightage;
+        while($remainingWeightage !=0) {
+            foreach ($subjectQuestionCategories as $qsnCategory) {
+                if($remainingWeightage > 0) {
+                    if($remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] > 0) {
+                        $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] -= 1;
+                        $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] += 1;
+                        $weightage += $qsnCategory->qsnCategory->weightage;
+                    }
+                }
+                else{
+                    if($allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] > $qsnCategory->min) {
+                        $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] += 1;
+                        $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] -= 1;
+                        $weightage -= $qsnCategory->qsnCategory->weightage;
+                    }
+                }
+                $remainingWeightage = $model->full_mark - $weightage;
+                if ($remainingWeightage == 0) {
+                    break;
+                }
+            }
+        }
+        return response()->json(
+            [
+                'model' => $model,
+                'data' => collect($allocated)
+            ]
+        );
+    }
+
     public function index()
     {
         //

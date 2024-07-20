@@ -71,9 +71,10 @@
                 <table id="model-details-table" class="table">
                     <thead>
                         <tr>
-                            <th>Question Category</th>
-                            <th>Weightage</th>
                             <th>Subject</th>
+                            <th>Question Category</th>
+                            <th>No. of Questions</th>
+                            <th>Weightage</th>
                             <th>Calculated Weightage</th>
                         </tr>
                     </thead>
@@ -154,31 +155,13 @@
                     success: function(response) {
                         $("#model").empty().append(
                             '<option value="">Select Model</option>'); // Clear and add default option
-
                         // Loop through each model in the response
-                        $.each(response, function(index, model) {
+
+                        $.each(response.models, function(index, model) {
                             $("#model").append('<option value="' + model.id + '">' + model.name +
                                 '</option>');
                         });
 
-                        // Handle model selection
-                        $("#model").change(function() {
-                            var selectedModelId = $(this).val();
-                            if (selectedModelId) {
-                                // Find the selected model by its ID in the response
-                                var selectedModel = response.find(function(model) {
-                                    return model.id == selectedModelId;
-                                });
-                                if (selectedModel) {
-                                    displayModelDetails(selectedModel);
-                                } else {
-                                    console.error("Selected model not found in response:",
-                                        selectedModelId);
-                                }
-                            } else {
-                                $("#model-details").empty(); // Clear details if no model is selected
-                            }
-                        });
                     },
                     error: function(xhr) {
                         console.error("AJAX Error:", xhr);
@@ -189,37 +172,59 @@
             }
             nextStep('step1', 'step2');
         }
+        $("#model").change(function() {
+            var selectedModelId = $(this).val();
+            if(selectedModelId)
+            {
+                $.ajax({
+                    url: '{{ route('question.models.distribution') }}',
+                    type: 'GET',
+                    data: {
+                        model_id: selectedModelId,
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        displayModelDetails(response);
+                    },
+                    error: function(xhr) {
+                        console.error("AJAX Error:", xhr);
+                    }
+                });
+            }
+            else {
+                $("#model-details").empty();
+                $("#model-details-table tbody").empty();
+            }
 
-        function displayModelDetails(model) {
+        });
+
+        function displayModelDetails(response) {
             var detailsHtml = `
-        <p><strong>Model ID:</strong> ${model.id}</p>
-        <p><strong>Model Name:</strong> ${model.name}</p>
-        <p><strong>Full Marks:</strong> ${model.full_mark}</p>
-        <p><strong>Pass Marks:</strong> ${model.pass_mark}</p>
-        <p><strong>Time Limit:</strong> ${model.time_limit}</p>
-        <p><strong>Created At:</strong> ${model.created_at}</p>
-        <p><strong>Updated At:</strong> ${model.updated_at}</p>
-    `;
-
-            var tableHtml = '';
-            if (model.subjects && model.question_categories) {
-                for (var i = 0; i < model.subjects.length; i++) {
-                    tableHtml += `
-                <tr>
-                    <td>${model.question_categories[i].name}</td>
-                    <td>${model.question_categories[i].weightage}</td>
-                    <td>${model.subjects[i].name}</td>
-                    <td>${model.question_categories[i].weightage * model.subjects[i].question_count}</td>
-                </tr>
+                <p><strong>Model Name:</strong> ${response.model.name}</p>
+                <p><strong>Full Marks:</strong> ${response.model.full_mark}</p>
+                <p><strong>Pass Marks:</strong> ${response.model.pass_mark}</p>
+                <p><strong>Time Limit:</strong> ${response.model.time_limit}</p>
             `;
-                }
+            var tableHtml = '';
+            if (response.data) {
+                $.each(response.data, function(sKey, subject ) {
+                    $.each(subject, function (cKey, category) {
+                        tableHtml += `
+                            <tr>
+                                <td>${sKey}</td>
+                                <td>${cKey}</td>
+                                <td>${category.weightage}</td>
+                                <td>${category.count}</td>
+                                <td>${category.weightage*category.count}</td>
+                             </tr>
+                        `;
+                    });
+                });
             }
 
             $("#model-details").html(detailsHtml);
             $("#model-details-table tbody").html(tableHtml);
         }
-
-
 
         // Function to display confirmation data
         function displayConfirmationData() {

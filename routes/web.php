@@ -40,6 +40,8 @@ Route::group(['prefix' => 'exam', 'namespace' => 'Users'], function () {
     Route::get('/exam-room', [ExamPageController::class, 'loadRoom'])->name('exam.room');
     Route::get('/exam-room/random/{qsn_model_id}', [ExamPageController::class, 'getRandomQuestions'])->name('load.questions');
     Route::get('/exam-form/models', [QsnModelController::class, 'getModels'])->name('question.models');
+    Route::get('/exam-form/models/distribution', [QsnModelController::class, 'distribution'])->name('question.models.distribution');
+
 });
 
 

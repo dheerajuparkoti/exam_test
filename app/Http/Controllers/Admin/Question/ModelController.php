@@ -78,7 +78,7 @@ class ModelController extends Controller
     {
         $model = $this->modelService->findOrFail($id)->load(['category', 'level', 'faculty', 'subFaculty']);
 
-        return view($this->view.'show', compact('model'));
+        return view($this->view . 'show', compact('model'));
     }
 
     /**
@@ -112,13 +112,15 @@ class ModelController extends Controller
         return redirect()->back();
     }
 
-    public function modelsBySubFaculty($subFacultyId) {
+    public function modelsBySubFaculty($subFacultyId)
+    {
         $models = $this->modelService->query()->where(['sub_faculty_id' => $subFacultyId])->get();
 
         return $models;
     }
 
-    public function getSubjectCategoriesByModel($modelId) {
+    public function getSubjectCategoriesByModel($modelId)
+    {
         $this->checkModel($modelId);
         $subjectQuestionCategories = SubjectQuestionCategory::where(['qsn_model_id' => $modelId])->with(['subject', 'qsnCategory']);
 
@@ -154,19 +156,57 @@ class ModelController extends Controller
             ->make(true);
     }
 
-    public function checkModel($modelId) {
+    public function checkModel($modelId)
+    {
         $model = $this->modelService->find($modelId)->load(['questionCategories.qsnCategory']);
         $subjectQuestionCategories = $model->questionCategories;
         $min = 0;
         $max = 0;
-        foreach($subjectQuestionCategories as $qsnCategory) {
-            $min+=  $qsnCategory->min * $qsnCategory->qsnCategory->weightage;
-            $max+=  $qsnCategory->max * $qsnCategory->qsnCategory->weightage;
+        $this->distribution($model->full_mark, $subjectQuestionCategories);
+        foreach ($subjectQuestionCategories as $qsnCategory) {
+            $min += $qsnCategory->min * $qsnCategory->qsnCategory->weightage;
+            $max += $qsnCategory->max * $qsnCategory->qsnCategory->weightage;
         }
-        if($model->full_marks >= $min && $model->full_marks <= $max) {
+        if ($model->full_marks >= $min && $model->full_marks <= $max) {
             return true;
         }
         return false;
+    }
 
+    public function distribution($fullMarks, $subjectQuestionCategories)
+    {
+        $allocated[] = [];
+        $remaining[] = [];
+        $weightage = 0;
+        foreach ($subjectQuestionCategories as $qsnCategory) {
+            $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] = rand($qsnCategory->min, $qsnCategory->max);
+            $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] = $qsnCategory->max - $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name];
+            $weightage += $qsnCategory->qsnCategory->weightage * $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name];
+        }
+        $remainingWeightage = $fullMarks - $weightage;
+        while($remainingWeightage !=0) {
+            foreach ($subjectQuestionCategories as $qsnCategory) {
+                if($remainingWeightage > 0) {
+                    if($remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] > 0) {
+                        $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] -= 1;
+                        $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] += 1;
+                        $weightage += $qsnCategory->qsnCategory->weightage;
+                    }
+                }
+                else{
+                    if($allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] > $qsnCategory->min) {
+                        $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] += 1;
+                        $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] -= 1;
+                        $weightage -= $qsnCategory->qsnCategory->weightage;
+                    }
+                }
+                $remainingWeightage = $fullMarks - $weightage;
+                if ($remainingWeightage == 0) {
+                    break;
+                }
+            }
+        }
+
+        return $allocated;
     }
 }
