@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share the username variable with all views
+        view()->composer('*', function ($view) {
+            $user = Auth::user();
+            $view->with([
+                'user_id'=>$user? $user->id:null,
+                'username' => $user ? $user->name : 'Guest',
+                'email' => $user ? $user->email : null,
+            ]);
+        });
     }
 }
