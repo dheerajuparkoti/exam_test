@@ -1,0 +1,40 @@
+/* Flex container for rows of two charts each */
+.charts-row {
+    display: flex;
+    justify-content: space-around; /* Distribute space evenly between charts */
+    margin: 20px 0; /* Vertical spacing between rows */
+    padding: 0 10px; /* Horizontal padding for better spacing control */
+}
+
+/* Chart container styling for rows with two charts */
+.chart-container {
+    width: 48%; /* Adjust width to fit two charts per row */
+    margin: 0; /* Remove any extra margin */
+    background: linear-gradient(45deg, #ffffff, #d1d1d1);
+}
+
+/* Smaller chart container styling for pie charts */
+.pie-chart-container {
+    width: 30%; /* Further reduced width for pie charts */
+    margin: 0; /* Remove margin if not needed */
+    /* background: linear-gradient(45deg, #ffffff, #d1d1d1); */
+}
+
+/* Ensure charts fill their container */
+canvas {
+    width: 100% !important; /* Ensure canvas fills the container */
+    height: auto !important; /* Maintain aspect ratio */
+}
+
+/* Flex container for single charts in each row */
+.chart-row {
+    display: flex;
+    justify-content: center; /* Center charts horizontally */
+    margin: 20px 0; /* Vertical spacing between rows */
+}
+
+/* Additional styling if needed */
+.full-width {
+    width: 100%; /* Ensure the container takes full width */
+    margin: 20px auto; /* Center container and adjust vertical spacing */
+}

@@ -6,7 +6,9 @@
 @section('content')
     <section>
         {{-- Multi-step form --}}
-        <form id="multi-step-form" action="{{ route('exam.room') }}" method="GET">
+        <form id="multi-step-form" action="{{ route('exam.room') }}" method="POST">
+            @csrf
+
             <!-- Step 1: Choose Category, Levels, Faculty, Programs -->
             <div class="step active" id="step1">
                 <p class="inter-abc abc">Step 1: Choose Category, Levels, Faculty, Sub-Faculty</p>
@@ -106,11 +108,15 @@
                 </button>
                 <button type="submit" onclick="showLoaderAndSubmit()" class="submit-btn">
                     Confirm and Submit
-                    {{-- {{ route('users.exam.form') }} --}}
+                    {{-- {{ route('exam.room') }} --}}
                 </button>
                 <br>
                 <br>
             </div>
+             <!-- Hidden inputs to store the model details -->
+             <input type="hidden" id="full_mark" name="full_mark">
+             <input type="hidden" id="pass_mark" name="pass_mark">          
+             <input type="hidden" id="time_limit" name="time_limit">
         </form>
     </section>
     <div class="full-page-loader" id="fullPageLoader">
@@ -142,10 +148,14 @@
             var facultyId = $("#faculty option:selected").val();
             var subFacultyId = $("#sub-faculty option:selected").val();
 
+
             if (subFacultyId) {
                 $.ajax({
                     url: '{{ route('question.models') }}',
                     type: 'GET',
+                    headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
                     data: {
                         category_id: categoryId,
                         level_id: levelId,
@@ -174,11 +184,11 @@
         }
         $("#model").change(function() {
             var selectedModelId = $(this).val();
-            if(selectedModelId)
-            {
+            if (selectedModelId) {
                 $.ajax({
                     url: '{{ route('question.models.distribution') }}',
                     type: 'GET',
+          
                     data: {
                         model_id: selectedModelId,
                     },
@@ -190,8 +200,7 @@
                         console.error("AJAX Error:", xhr);
                     }
                 });
-            }
-            else {
+            } else {
                 $("#model-details").empty();
                 $("#model-details-table tbody").empty();
             }
@@ -207,8 +216,8 @@
             `;
             var tableHtml = '';
             if (response.data) {
-                $.each(response.data, function(sKey, subject ) {
-                    $.each(subject, function (cKey, category) {
+                $.each(response.data, function(sKey, subject) {
+                    $.each(subject, function(cKey, category) {
                         tableHtml += `
                             <tr>
                                 <td>${sKey}</td>
@@ -224,6 +233,10 @@
 
             $("#model-details").html(detailsHtml);
             $("#model-details-table tbody").html(tableHtml);
+              // Set hidden inputs with the model details
+              $("#full_mark").val(response.model.full_mark);
+            $("#pass_mark").val(response.model.pass_mark);
+            $("#time_limit").val(response.model.time_limit);
         }
 
         // Function to display confirmation data
@@ -316,20 +329,35 @@
             });
 
         });
-        //function loading progress bar
         function showLoaderAndSubmit() {
+            // Disable the submit button to prevent multiple submissions
             document.querySelector('.submit-btn').disabled = true;
+
+            // Show the loader
             document.getElementById('fullPageLoader').style.display = 'flex';
+
             let count = 10;
             const countdownElement = document.querySelector('.progress-text');
             const countdownInterval = setInterval(() => {
                 countdownElement.textContent = count;
                 count--;
+
                 if (count < 0) {
-                    clearInterval(countdownInterval);
-                    document.querySelector('form').submit();
+                    clearInterval(countdownInterval);  // Stop countdown
+                    document.getElementById('multi-step-form').submit();  // Submit form after countdown
                 }
-            }, 1000);
+            }, 1000);  // Countdown every second
         }
+
+        // Form submission event
+        $("#multi-step-form").submit(function (e) {
+            e.preventDefault();  // Prevent default form submission (you can remove this if you want default behavior)
+
+            // Optional: Add any additional validation or actions before submission
+            alert('Form submitted successfully!');
+
+            // Call the countdown and loader function to show the loader and submit the form
+            showLoaderAndSubmit();
+        });
     </script>
 @endsection

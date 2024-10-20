@@ -1,12 +1,215 @@
-#section1 {
+/* dashboard.css */
+/* dashboard.css */
+
+
+
+
+#dashboard {
+    background: linear-gradient(135deg, #e0f7fa, #ffecb3);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    padding: 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.dashboard-header h1 {
+    color: #00796b;
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.dashboard-header p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.dashboard-section {
+    margin-bottom: 40px;
+}
+
+.section-header h3 {
+    font-size: 2em;
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+.section-content {
+    background: #f1f8e9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.performance-stats, .leaderboard, .test-history {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.stats-card, .test-card, .leaderboard-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    flex-basis: 22%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover, .test-card:hover, .leaderboard-card:hover {
+    transform: translateY(-10px);
+}
+
+.stats-card h4, .test-card h4, .leaderboard-card h4 {
+    font-size: 1.4em;
+    color: #00796b;
+}
+
+.stats-card p, .test-card p, .leaderboard-card p {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 10px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th, .history-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.history-table th {
+    background-color: #00796b;
+    color: white;
+}
+
+.history-table tr:hover {
+    background-color: #f1f8e9;
+}
+
+@media (max-width: 768px) {
+    .stats-card, .test-card, .leaderboard-card {
+        flex-basis: 100%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2.5em;
+    }
+
+    .dashboard-header p {
+        font-size: 1.1em;
+    }
+}
+
+
+/* Welcome Banner */
+.welcome-banner {
+    background-color: #00796b;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 60px; /* Ensure enough height for the moving text */
+    display: flex;
+    align-items: center; /* Vertically centers the text */
+}
+
+/* Moving Text */
+.moving-text {
+    color: #ffffff;
+    font-size: 1.6em;
+    font-weight: normal;
+    white-space: nowrap;
+    animation: moveText 10s linear infinite;
+}
+
+/* Animation */
+@keyframes moveText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+/* Dashboard CSS File: dashboard.css */
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th, .history-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.status-passed {
+    color: #28a745; /* Green color for passed */
+    font-weight: bold;
+}
+
+.status-failed {
+    color: #dc3545; /* Red color for failed */
+    font-weight: bold;
+}
+
+/* Additional styles for the table */
+.history-table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+/* Dashboard CSS File: dashboard.css */
+
+.leaderboard {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    align-content: center;
-    background: linear-gradient(45deg, #000000, #717171);
-    color: white;
-    opacity: 0.8;
-    height: 100%;
-    width: 100%;
+}
 
+.leaderboard-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaderboard-card h4 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.leaderboard-card p {
+    margin: 5px 0;
+}
+
+.leaderboard-card strong {
+    color: #333;
 }

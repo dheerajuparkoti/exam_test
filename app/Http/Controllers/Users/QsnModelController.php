@@ -27,19 +27,19 @@ class QsnModelController extends Controller
      */
     public function __construct(
         ModelService $modelService
-    )
-    {
+    ) {
         $this->modelService = $modelService;
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function getModels(Request $request) {
+    public function getModels(Request $request)
+    {
         $models = $this->modelService->getWhere(['sub_faculty_id' => $request->query('sub_faculty_id')]);
-        $result =[];
-        foreach($models as $model) {
-            if($this->checkModel($model->id)) {
+        $result = [];
+        foreach ($models as $model) {
+            if ($this->checkModel($model->id)) {
                 $result['models'] = $models;
             }
         }
@@ -137,7 +137,7 @@ class QsnModelController extends Controller
         Log::info('Total weightage calculated:', ['total_weightage' => $totalWeightage]);
 
 
-        if ($totalWeightage >= 100) {
+        if ($totalWeightage >= 50) {
             Log::info('Total weightage meets or exceeds 100, returning results.');
 
             // At the end, add subjects and question categories details
@@ -206,6 +206,7 @@ class QsnModelController extends Controller
     }
     public function distribution(Request $request)
     {
+        $allocated = []; // Ensure this variable is initialized
         $model = $this->modelService->find($request->query('model_id'))->load(['questionCategories.qsnCategory']);
         $subjectQuestionCategories = $model->questionCategories;
         $weightage = 0;
@@ -216,17 +217,16 @@ class QsnModelController extends Controller
             $weightage += $qsnCategory->qsnCategory->weightage * $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'];
         }
         $remainingWeightage = $model->fullMark - $weightage;
-        while($remainingWeightage !=0) {
+        while ($remainingWeightage != 0) {
             foreach ($subjectQuestionCategories as $qsnCategory) {
-                if($remainingWeightage > 0) {
-                    if($remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] > 0) {
+                if ($remainingWeightage > 0) {
+                    if ($remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] > 0) {
                         $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] -= 1;
                         $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] += 1;
                         $weightage += $qsnCategory->qsnCategory->weightage;
                     }
-                }
-                else{
-                    if($allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] > $qsnCategory->min) {
+                } else {
+                    if ($allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] > $qsnCategory->min) {
                         $remaining[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name] += 1;
                         $allocated[$qsnCategory->subject->name][$qsnCategory->qsnCategory->name]['count'] -= 1;
                         $weightage -= $qsnCategory->qsnCategory->weightage;
@@ -238,6 +238,10 @@ class QsnModelController extends Controller
                 }
             }
         }
+
+        // Log the data to the Laravel log file
+        Log::info('Model Data:', ['model' => $model]);
+        Log::info('Allocated Data:', ['data' => $allocated]);
         return response()->json(
             [
                 'model' => $model,

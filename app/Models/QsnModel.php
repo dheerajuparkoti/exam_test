@@ -45,4 +45,10 @@ class QsnModel extends Model
     {
         return $this->hasMany(SubjectQuestionCategory::class, 'qsn_model_id');
     }
+
+    protected $table = 'qsn_models'; // Make sure this is the correct table name
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'qsn_model_id');
+    }
 }
